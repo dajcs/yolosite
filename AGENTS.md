@@ -1,4 +1,4 @@
-# Kanban Project
+# CV Project
 
 ## Business Requirements
 
