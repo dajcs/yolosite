@@ -26,6 +26,17 @@ const education = [
     ],
     color: "#753991",
   },
+  {
+    degree: "Software Engineering — Common Core",
+    institution: "42 School Luxembourg",
+    period: "2025 — Present",
+    details: [
+      "Peer-to-peer, project-based curriculum with no teachers or lectures",
+      "Level 9.70 · 89% complete · 1,705h logged",
+      "C, C++, Unix, Networking, Docker, Raytracing, Web development",
+    ],
+    color: "#ecad0a",
+  },
 ];
 
 const certifications = [
@@ -62,7 +73,7 @@ export default function Education() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-14">
+        <div className="grid md:grid-cols-3 gap-8 mb-14">
           {education.map((edu, i) => (
             <motion.div
               key={edu.degree}
