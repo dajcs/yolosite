@@ -15,16 +15,30 @@ const education = [
       "Modules: SatCom, Computer Vision, Space Robotics, Space Informatics, Business Economics",
     ],
     color: "#209dd7",
+    wide: false,
+  },
+  {
+    degree: "School 42 — Common Core",
+    institution: "42 Luxembourg",
+    period: "2025 — present",
+    details: [
+      "Level 9.70 · Selected March 2025 · Started June 2025",
+      "Projects: Libft, minishell, miniRT, webserv, Inception, ft_transcendence",
+      "Skills: C, C++, Unix, Networking, Docker, algorithms, concurrent programming",
+    ],
+    color: "#ecad0a",
+    wide: false,
   },
   {
     degree: "MSc Electronics & Telecommunications Engineering",
     institution: "Technical University of Cluj-Napoca, Romania",
-    period: "Graduated 1991",
+    period: "A long time ago in a galaxy far, far away...",
     details: [
       "Foundation in electronics, radio frequency engineering and telecommunications",
       "Basis for 20+ year career in network integration and optimization",
     ],
     color: "#753991",
+    wide: true,
   },
 ];
 
@@ -69,7 +83,7 @@ export default function Education() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, delay: 0.1 + i * 0.1 }}
-              className="rounded-2xl p-8 group hover:border-opacity-40 transition-all"
+              className={`rounded-2xl p-8 group hover:border-opacity-40 transition-all${edu.wide ? " md:col-span-2" : ""}`}
               style={{
                 background: "#0d2040",
                 border: `1px solid ${edu.color}25`,

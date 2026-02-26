@@ -34,7 +34,7 @@ export default function Hero() {
           className="text-sm font-semibold tracking-[0.25em] uppercase mb-6"
           style={{ color: "#ecad0a" }}
         >
-          Luxembourg &bull; ICT &bull; Space &bull; AI
+          Luxembourg &bull; LLM &bull; Space &bull; AI
         </motion.p>
 
         {/* Name */}
@@ -69,7 +69,7 @@ export default function Hero() {
           style={{ color: "#888888" }}
         >
           20+ years engineering resilient telecom networks across 4 continents.
-          Now expanding into space technologies, AI, and systems programming.
+          Now expanding into space technologies, systems programming, LLMs and Agentic AI.
         </motion.p>
 
         {/* CTAs */}

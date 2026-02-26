@@ -46,7 +46,7 @@ export default function About() {
           >
             <p className="leading-relaxed" style={{ color: "#888888" }}>
               With over two decades of broad experience in ICT at Ericsson, I have engineered
-              resilient radio access networks across Europe, Africa, and beyond — bridging
+              resilient radio access networks across Europe, Asia, Africa, and beyond — bridging
               2G, 3G, 4G and 5G technologies for operators including Vodafone, O2, T-Mobile,
               Swisscom and KPN.
             </p>
