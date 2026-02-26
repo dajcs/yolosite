@@ -59,7 +59,7 @@ export default function About() {
             </p>
             <p className="leading-relaxed" style={{ color: "#888888" }}>
               Since 2025 I have been deepening my systems programming skills at 42 School
-              Luxembourg, currently at level 9.70 with 87% of the Common Core completed,
+              Luxembourg, currently at level 9.70 with 89% of the Common Core completed,
               working in C, C++, and increasingly exploring AI/LLM engineering.
             </p>
           </motion.div>

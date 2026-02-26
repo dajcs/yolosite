@@ -56,11 +56,11 @@ export default function School42() {
                 className="h-full rounded-full"
                 style={{ background: "linear-gradient(90deg, #ecad0a, #209dd7)" }}
                 initial={{ width: 0 }}
-                animate={inView ? { width: "87%" } : {}}
+                animate={inView ? { width: "89%" } : {}}
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               />
             </div>
-            <span className="text-sm font-bold" style={{ color: "#ecad0a" }}>87%</span>
+            <span className="text-sm font-bold" style={{ color: "#ecad0a" }}>89%</span>
           </div>
           <p className="text-sm" style={{ color: "#888888" }}>
             Level 9.70 &middot; Common Core &middot; Selected March 2025 &middot; Started June 2025

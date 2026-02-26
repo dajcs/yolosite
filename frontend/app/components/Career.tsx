@@ -19,7 +19,7 @@ const events: Event[] = [
     org: "42 Luxembourg",
     location: "Luxembourg",
     bullets: [
-      "Level 9.70, 87% Common Core completed",
+      "Level 9.70, 89% Common Core completed",
       "Projects: minishell, miniRT, webserv, Inception, ft_transcendence",
       "C, C++, systems programming, Docker, HTTP server implementation",
     ],

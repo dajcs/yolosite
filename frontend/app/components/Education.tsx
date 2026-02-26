@@ -38,7 +38,6 @@ const certifications = [
   "LLM Engineering: Master AI, Large Language Models & Agents",
   "Andrej Karpathy — GPT Tokenizer & Reproducing GPT-2",
   "Blockchain Basics",
-  "Introduction to Computer Science (edX Verified)",
   "Motion Planning for Self-Driving Cars (Coursera)",
 ];
 
