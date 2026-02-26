@@ -28,9 +28,8 @@ export default function Hero() {
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
           className="text-sm font-semibold tracking-[0.25em] uppercase mb-6"
           style={{ color: "#ecad0a" }}
         >
@@ -39,9 +38,8 @@ export default function Hero() {
 
         {/* Name */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
           className="text-5xl sm:text-7xl font-black tracking-tight mb-4"
           style={{ color: "#e8edf5" }}
         >
@@ -51,9 +49,8 @@ export default function Hero() {
 
         {/* Title */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-xl sm:text-2xl font-light mb-8"
           style={{ color: "#888888" }}
         >
@@ -62,9 +59,8 @@ export default function Hero() {
 
         {/* Tagline */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
           className="text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
           style={{ color: "#888888" }}
         >
@@ -74,9 +70,8 @@ export default function Hero() {
 
         {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-wrap gap-4 justify-center mb-14"
         >
           <a
@@ -100,9 +95,8 @@ export default function Hero() {
 
         {/* Social icons */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
           className="flex gap-6 justify-center mb-16"
         >
           <a
@@ -129,7 +123,7 @@ export default function Hero() {
       {/* Scroll indicator */}
       <motion.a
         href="#about"
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1, y: [0, 8, 0] }}
         transition={{ delay: 1, duration: 2, repeat: Infinity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
