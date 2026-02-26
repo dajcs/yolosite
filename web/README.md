@@ -1,6 +1,6 @@
 # Attila Nemet — Personal Website
 
-A professional single-page portfolio built with Next.js.
+A professional single-page portfolio built with [Next.js](https://nodejs.org/en/download).
 
 ## Run locally
 

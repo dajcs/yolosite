@@ -21,7 +21,7 @@
 ## Technical Details
 
 - Implemented as a modern NextJS app, client rendered
-- The NextJS app should be created in a subdirectory `frontend`
+- The NextJS app should be created in a subdirectory `web`
 - No persistence
 - No user management for the MVP
 - Use popular libraries
