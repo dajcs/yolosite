@@ -1,11 +1,11 @@
 # yolosite
 
-Personal professional website for Attila Nemet, built with Next.js.
+Personal professional website for Attila Nemet, built with [Next.js](https://nodejs.org/en/download).
 
 ## Run locally
 
 ```
-cd frontend
+cd web
 npm install
 npm run dev
 ```
