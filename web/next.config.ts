@@ -14,7 +14,11 @@ if (fs.existsSync(envFile)) {
 }
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
+  basePath: '/yolosite',
 };
 
 export default nextConfig;
