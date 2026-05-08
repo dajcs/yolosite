@@ -20,11 +20,13 @@ const items = [
     status: "Published",
   },
   {
-    title: "ft_transcendence",
-    desc: "Full-stack web application built as part of the 42 School curriculum. Multiplayer Pong game with user authentication, real-time gameplay, and a chat system — built as a group project.",
+    title: "42 Transcendence - Vox Populi",
+    desc: "Full-stack web application built as part of the 42 School curriculum." + 
+          " A lightweight prediction market designed to reduce the distortions introduced by money," + 
+          " while preserving incentives for truth-seeking and high-quality discussion.",
     tags: ["TypeScript", "WebSockets", "Docker", "42 School"],
     color: "#753991",
-    status: "In Progress",
+    status: 'https://voxpo.me',
   },
 ];
 

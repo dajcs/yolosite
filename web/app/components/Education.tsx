@@ -6,6 +6,30 @@ import { GraduationCap } from "lucide-react";
 
 const education = [
   {
+    degree: "DLH Academy — Cybersecuirty",
+    institution: "DLH Academy",
+    period: "2026 — present",
+    details: [
+      "12-month intensive training program aligned with the National Cybersecurity Strategy",
+      "Projects: Defensive and Offensive specialization tracks, final Capstone Project",
+      "Skills: OS, Scripting, Security Fundamentals, Penetration Testing, Incident Response",
+    ],
+    color: "#ecbd0a",
+    wide: false,
+  },
+  {
+    degree: "School 42 — Common Core",
+    institution: "42 Luxembourg",
+    period: "2025 — present",
+    details: [
+      "Level 11 ⟡ 98% · Selected March 2025 · Started June 2025",
+      "Projects: Libft, minishell, miniRT, webserv, Inception, ft_transcendence",
+      "Skills: C, C++, Unix, Networking, Docker, algorithms, concurrent programming, web server implementation, web site development, AI / LLM projects",
+    ],
+    color: "#ecad0a",
+    wide: false,
+  },
+  {
     degree: "MSc Space Technologies and Business",
     institution: "University of Luxembourg",
     period: "2022 — 2024",
@@ -18,18 +42,6 @@ const education = [
     wide: false,
   },
   {
-    degree: "School 42 — Common Core",
-    institution: "42 Luxembourg",
-    period: "2025 — present",
-    details: [
-      "Level 9.70 · Selected March 2025 · Started June 2025",
-      "Projects: Libft, minishell, miniRT, webserv, Inception, ft_transcendence",
-      "Skills: C, C++, Unix, Networking, Docker, algorithms, concurrent programming",
-    ],
-    color: "#ecad0a",
-    wide: false,
-  },
-  {
     degree: "MSc Electronics & Telecommunications Engineering",
     institution: "Technical University of Cluj-Napoca, Romania",
     period: "A long time ago in a galaxy far, far away...",
@@ -38,7 +50,7 @@ const education = [
       "Basis for 20+ year career in network integration and optimization",
     ],
     color: "#753991",
-    wide: true,
+    wide: false,
   },
 ];
 

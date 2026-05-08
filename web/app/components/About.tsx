@@ -33,7 +33,7 @@ export default function About() {
             About Me
           </p>
           <h2 className="text-4xl font-black mb-6" style={{ color: "#e8edf5" }}>
-            Where Telecom Meets <span style={{ color: "#209dd7" }}>Space & AI</span>
+            Where Telecom Meets <span style={{ color: "#209dd7" }}>Space, AI and Cybersecurity</span>
           </h2>
         </motion.div>
 
@@ -46,12 +46,12 @@ export default function About() {
           >
             <p className="leading-relaxed" style={{ color: "#888888" }}>
               With over two decades of broad experience in ICT at Ericsson, I have engineered
-              resilient radio access networks across Europe, Asia, Africa, and beyond — bridging
+              resilient radio access networks across Europe, Asia, Africa, and America — bridging
               2G, 3G, 4G and 5G technologies for operators including Vodafone, O2, T-Mobile,
-              Swisscom and KPN.
+              Swisscom, KPN and others.
             </p>
             <p className="leading-relaxed" style={{ color: "#888888" }}>
-              In 2022 I stepped back to pursue a Master&rsquo;s in Space Technologies and Business
+              In 2022 I pursued a Master&rsquo;s in Space Technologies and Business
               at the University of Luxembourg, writing my thesis on using Large Language Models
               for space software testing. I also built the <em>Lens Flare Wizard</em> — a
               Python/Blender toolkit that generates synthetic training images for computer
@@ -59,8 +59,9 @@ export default function About() {
             </p>
             <p className="leading-relaxed" style={{ color: "#888888" }}>
               Since 2025 I have been deepening my systems programming skills at 42 School
-              Luxembourg, currently at level 9.70 with 89% of the Common Core completed,
-              working in C, C++, and increasingly exploring AI/LLM engineering.
+              Luxembourg, currently at level 11 with 98% of the Common Core completed,
+              working in C, C++, Python and specializing in AI/LLM at 42 and Cybersecurity 
+              at the DLH Academy.
             </p>
           </motion.div>
 
@@ -77,7 +78,7 @@ export default function About() {
               <Stat value="20+" label="Years in ICT" />
               <Stat value="20+" label="Countries" />
               <Stat value="MSc" label="Space Technologies" />
-              <Stat value="9.70" label="42 School Level" />
+              <Stat value="11 &#10209; 98%" label="42 School Level" />
             </div>
 
             {/* Languages */}
@@ -90,13 +91,13 @@ export default function About() {
               </p>
               <div className="grid grid-cols-2 gap-2 text-sm" style={{ color: "#888888" }}>
                 {[
-                  ["Hungarian", "Native"],
                   ["English", "C2 Fluent"],
                   ["Romanian", "C2 Fluent"],
-                  ["French", "B1"],
-                  ["German", "B1"],
+                  ["French", "B1 / B2"],
+                  ["German", "B1 / B2"],
+                  ["Hungarian", "Native"],
                 ].map(([lang, level]) => (
-                  <div key={lang} className="flex justify-between pr-4">
+                  <div key={lang} className="flex justify-between pr-15">
                     <span style={{ color: "#e8edf5" }}>{lang}</span>
                     <span>{level}</span>
                   </div>

@@ -14,12 +14,25 @@ interface Event {
 
 const events: Event[] = [
   {
+    period: "2026 — Present",
+    role: "DLH Cybersecurity Academy Student",
+    org: "DLH Academy",
+    location: "Luxembourg",
+    bullets: [
+      "A 12-month intensive training program in cybersecurity",
+      "Hands-on skills in defensive and offensive security operations",
+      "Focus on network security, penetration testing, and incident response",
+      "Preparation for CompTIA Security+ and PenTest+ certifications",
+    ],
+    accent: "#ecbd0a",
+  },
+  {
     period: "2025 — Present",
     role: "Common Core Student",
     org: "42 Luxembourg",
     location: "Luxembourg",
     bullets: [
-      "Level 9.70, 89% Common Core completed",
+      "Level 11 ♦ 98% Common Core completed",
       "Projects: minishell, miniRT, webserv, Inception, ft_transcendence",
       "C, C++, systems programming, Docker, HTTP server implementation",
     ],
@@ -39,7 +52,7 @@ const events: Event[] = [
   },
   {
     period: "2015 — 2023",
-    role: "Business Analyst / Software Tester",
+    role: "Business Analyst ♦ Software Tester",
     org: "Ericsson",
     location: "Budapest, Hungary",
     bullets: [
@@ -51,7 +64,7 @@ const events: Event[] = [
   },
   {
     period: "2012 — 2015",
-    role: "OPM Support / Technical Lead",
+    role: "OPM Support ♦ Technical Lead",
     org: "Ericsson",
     location: "Germany, Ireland, Hungary",
     bullets: [

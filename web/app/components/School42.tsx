@@ -23,10 +23,11 @@ const projects: Project[] = [
   { name: "minishell", skills: "Shell implementation, parsing", result: "Pass", date: "Sep 2025", hours: "210h" },
   { name: "miniRT", skills: "Raytracing, Graphics", result: "Pass + bonus", date: "Oct 2025", hours: "280h" },
   { name: "NetPractice", skills: "TCP/IP, Subnetting, Routing", result: "Pass", date: "Oct 2025", hours: "50h" },
-  { name: "CPP Modules 00–09", skills: "Object-oriented programming in C++", result: "Pass (all)", date: "Oct–Nov 2025", hours: "185h" },
+  { name: "CPP Modules 00–09", skills: "Object-oriented programming in C++", result: "Pass", date: "Oct–Nov 2025", hours: "185h" },
   { name: "webserv", skills: "HTTP server, Unix, Networking", result: "Pass + bonus", date: "Jan 2026", hours: "175h" },
   { name: "Inception", skills: "Docker, System administration", result: "Pass + bonus", date: "Jan 2026", hours: "150h" },
-  { name: "ft_transcendence", skills: "Web, Group collaboration", result: "In progress", date: "2026", hours: "245h" },
+  { name: "ft_transcendence", skills: "Web, Group collaboration", result: "Pass + bonus", date: "May 2026", hours: "245h" },
+  { name: "42_Collaborative_resume", skills: "Communication, collaboration, self-reflection", result: "In progress", date: "2026", hours: "15h" },
 ];
 
 export default function School42() {
@@ -56,14 +57,14 @@ export default function School42() {
                 className="h-full rounded-full"
                 style={{ background: "linear-gradient(90deg, #ecad0a, #209dd7)" }}
                 initial={{ width: 0 }}
-                animate={inView ? { width: "89%" } : {}}
+                animate={inView ? { width: "98%" } : {}}
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               />
             </div>
-            <span className="text-sm font-bold" style={{ color: "#ecad0a" }}>89%</span>
+            <span className="text-sm font-bold" style={{ color: "#ecad0a" }}>98%</span>
           </div>
           <p className="text-sm" style={{ color: "#888888" }}>
-            Level 9.70 &middot; Common Core &middot; Selected March 2025 &middot; Started June 2025
+            Level 11 &#10209; 98% &middot; Common Core &middot; Selected March 2025 &middot; Started June 2025
           </p>
         </motion.div>
 

@@ -12,7 +12,7 @@ CAREER (20+ years at Ericsson):
 
 EDUCATION:
 - 2022–2024: MSc in Space Technologies & Business, University of Luxembourg — Master's thesis on LLMs for space software testing; Scientific project: Lens Flare Wizard (Python/Blender) for CV training datasets; Focus areas: SatCom, Computer Vision, Space Robotics, Space Informatics
-- 2025–present: Common Core Student at 42 Luxembourg — Level 9.70, 89% Common Core completed; Projects: minishell, miniRT, webserv, Inception, ft_transcendence; C, C++, systems programming, Docker, HTTP server implementation
+- 2025–present: Common Core Student at 42 Luxembourg — Level 11 &#10209; 98% Common Core completed; Projects: minishell, miniRT, webserv, Inception, ft_transcendence; C, C++, systems programming, Docker, HTTP server implementation
 
 SKILLS:
 - Telecom: 2G/3G/4G/5G RAN, RNC, MSS, BSS, OSS, RBS swap, network integration

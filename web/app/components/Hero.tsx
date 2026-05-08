@@ -34,7 +34,7 @@ export default function Hero() {
           className="text-sm font-semibold tracking-[0.25em] uppercase mb-6"
           style={{ color: "#ecad0a" }}
         >
-          Luxembourg &bull; LLM &bull; Space &bull; AI
+          Luxembourg &bull; LLM &bull; Space &bull; AI &bull; Cybersecurity
         </motion.p>
 
         {/* Name */}
@@ -57,7 +57,7 @@ export default function Hero() {
           className="text-xl sm:text-2xl font-light mb-8"
           style={{ color: "#888888" }}
         >
-          ICT Professional &middot; Space Technologies Master &middot; 42 School
+          ICT Professional &middot; Space Technologies Master &middot; 42 School &middot; DLH Academy
         </motion.p>
 
         {/* Tagline */}
@@ -69,7 +69,7 @@ export default function Hero() {
           style={{ color: "#888888" }}
         >
           20+ years engineering resilient telecom networks across 4 continents.
-          Now expanding into space technologies, systems programming, LLMs and Agentic AI.
+          Now expanding into space technologies, systems programming, LLMs, Agentic AI and Cybersecurity.
         </motion.p>
 
         {/* CTAs */}

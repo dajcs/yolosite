@@ -9,13 +9,13 @@ interface Skill {
 }
 
 const technical: Skill[] = [
-  { name: "Python", level: 85 },
-  { name: "C / C++", level: 80 },
-  { name: "Perl", level: 70 },
-  { name: "AI / ML / LLMs", level: 75 },
-  { name: "Network Engineering (RAN)", level: 95 },
+  { name: "Python", level: 92 },
+  { name: "C / C++", level: 81 },
+  { name: "Perl", level: 77 },
+  { name: "AI / ML / LLMs", level: 84 },
+  { name: "Network Engineering (RAN)", level: 98 },
   { name: "Docker / Linux", level: 75 },
-  { name: "Git / CI", level: 70 },
+  { name: "Git / CI", level: 72 },
 ];
 
 const categories = [
