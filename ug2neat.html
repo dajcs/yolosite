@@ -124,21 +124,14 @@
   .sidebar-section ul li {
     font-size: 15.5px;
     line-height: 1.45;
-    padding-left: 15px;
-    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     color: rgba(255, 255, 255, 0.8);
     font-weight: 550;
   }
 
-  .sidebar-section ul li::before {
-    content: '▸';
-    position: absolute;
-    left: 0;
-    top: 1px;
-    color: #1aa872;
-    font-size: 11px;
-    line-height: 1.5;
-  }
+  .sidebar-section ul li span { flex-shrink: 0; }
 
   /* ── MAIN 2×2 GRID ── */
   .main {
@@ -218,8 +211,9 @@
   .section ul li {
     font-size: 14px;
     line-height: 1.5;
-    padding-left: 16px;
-    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
     margin-bottom: 6px;
     color: #1A1A1A;
     font-weight: 500;
@@ -227,15 +221,13 @@
 
   .section ul li:last-child { margin-bottom: 0; }
 
-  .section ul li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: #1aa872;
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.1;
+  .section ul li span { flex-shrink: 0; }
+
+  img.emoji {
+    height: 1em;
+    width: 1em;
+    vertical-align: -0.1em;
+    display: inline-block;
   }
 
   @media print {
@@ -260,10 +252,10 @@
         <h2>What you get at my best</h2>
       </div>
       <ul>
-        <li>Proactive, idea-driven problem solving</li>
-        <li>Concise thinking with strong big-picture vision</li>
-        <li>Collaborative leadership that gets people onboard</li>
-        <li>Calm, optimistic energy under pressure</li>
+        <li><span>💡</span>Proactive, idea-driven problem solving</li>
+        <li><span>🎯</span>Concise thinking with strong big-picture vision</li>
+        <li><span>🤝</span>Collaborative leadership that gets people onboard</li>
+        <li><span>✨</span>Calm, optimistic energy under pressure</li>
       </ul>
     </div>
   </div>
@@ -276,10 +268,10 @@
         <h2>How to communicate with me</h2>
       </div>
       <ul>
-        <li>Be direct, clear, and concise</li>
-        <li>Bring ideas into open discussion and healthy debate</li>
-        <li>Share the context and overall purpose</li>
-        <li>Use practical examples or testable options</li>
+        <li><span>📣</span>Be direct, clear, and concise</li>
+        <li><span>🗣️</span>Bring ideas into open discussion and healthy debate</li>
+        <li><span>🗺️</span>Share the context and overall purpose</li>
+        <li><span>🧪</span>Use practical examples or testable options</li>
       </ul>
     </div>
 
@@ -289,10 +281,10 @@
         <h2>What motivates / demotivates me</h2>
       </div>
       <ul>
-        <li>Motivated by teamwork, positive impact, and creating new things</li>
-        <li>Energized by variety, flexibility, and new challenges</li>
-        <li>Enjoys design work, helping others, and thoughtful evaluation</li>
-        <li>Demotivated by rigid rules, repetitive routine, and narrowly defined tasks</li>
+        <li><span>🚀</span>Motivated by teamwork, positive impact, and creating new things</li>
+        <li><span>⚡</span>Energized by variety, flexibility, and new challenges</li>
+        <li><span>🎨</span>Enjoys design work, helping others, and thoughtful evaluation</li>
+        <li><span>⛔</span>Demotivated by rigid rules, repetitive routine, and narrowly defined tasks</li>
       </ul>
     </div>
 
@@ -302,11 +294,11 @@
         <h2>What I need from others</h2>
       </div>
       <ul>
-        <li>Active listening and a people-first mindset</li>
-        <li>Space to contribute ideas and challenge assumptions</li>
-        <li>Mutual respect, trust, and shared ownership</li>
-        <li>Flexibility rather than micromanagement</li>
-        <li>Practical support when learning something new</li>
+        <li><span>👂</span>Active listening and a people-first mindset</li>
+        <li><span>💭</span>Space to contribute ideas and challenge assumptions</li>
+        <li><span>🔗</span>Mutual respect, trust, and shared ownership</li>
+        <li><span>🔓</span>Flexibility rather than micromanagement</li>
+        <li><span>📚</span>Practical support when learning something new</li>
       </ul>
     </div>
 
@@ -316,16 +308,23 @@
         <h2>Watch-outs &amp; triggers</h2>
       </div>
       <ul>
-        <li>I may under-advocate for my ideas unless prompted</li>
-        <li>Too much routine or lack of stimulation drains my energy</li>
-        <li>Excessive social interaction can reduce my focus</li>
-        <li>High-stakes situations benefit from objective checkpoints</li>
-        <li>Clear ownership helps on detail-heavy finishing tasks</li>
+        <li><span>🔔</span>I may under-advocate for my ideas unless prompted</li>
+        <li><span>🔋</span>Too much routine or lack of stimulation drains my energy</li>
+        <li><span>🎧</span>Excessive social interaction can reduce my focus</li>
+        <li><span>✅</span>High-stakes situations benefit from objective checkpoints</li>
+        <li><span>📌</span>Clear ownership helps on detail-heavy finishing tasks</li>
       </ul>
     </div>
 
   </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js" crossorigin="anonymous"></script>
+<script>
+  twemoji.parse(document.body, {
+    folder: 'svg', ext: '.svg',
+    base: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/'
+  });
+</script>
 </body>
 </html>
