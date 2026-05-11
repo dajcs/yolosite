@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attila Nemet — Personal User Manual</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    font-family: 'DM Sans', sans-serif;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    display: grid;
+    grid-template-columns: 72mm 1fr;
+    overflow: hidden;
+    border: 4px solid #1aa872;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: #032147;
+    display: flex;
+    flex-direction: column;
+    border-right: 4px solid #1aa872;
+  }
+
+  .portrait {
+    width: 100%;
+    height: 89mm;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .sidebar-identity {
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid rgba(26, 168, 114, 0.3);
+  }
+
+  .sidebar-identity h1 {
+    font-size: 33px;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+  }
+
+  .sidebar-identity p {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1aa872;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    margin-top: 6px;
+    margin-bottom: 126px;
+  }
+
+  .sidebar-section {
+    padding: 14px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-section .section-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 11px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(26, 168, 114, 0.4);
+  }
+
+  .sidebar-section .section-num {
+    width: 26px;
+    height: 26px;
+    background: #1aa872;
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section .section-header h2 {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .sidebar-section ul {
+    list-style: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .sidebar-section ul li {
+    font-size: 15.5px;
+    line-height: 1.45;
+    padding-left: 15px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 550;
+  }
+
+  .sidebar-section ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    top: 1px;
+    color: #1aa872;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  /* ── MAIN 2×2 GRID ── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .section {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section::after {
+    content: attr(data-num);
+    position: absolute;
+    right: -4px;
+    bottom: -12px;
+    font-size: 88px;
+    font-weight: 800;
+    color: #032147;
+    opacity: 0.055;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .s1 { border-right: 3px solid #D0D5DD; border-bottom: 3px solid #D0D5DD; }
+  .s2 { border-bottom: 3px solid #D0D5DD; }
+  .s3 { border-right: 3px solid #D0D5DD; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #1aa872;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-num {
+    width: 28px;
+    height: 28px;
+    background: #1aa872;
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #032147;
+    line-height: 1.2;
+  }
+
+  .section ul {
+    list-style: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section ul li {
+    font-size: 14px;
+    line-height: 1.5;
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 6px;
+    color: #1A1A1A;
+    font-weight: 500;
+  }
+
+  .section ul li:last-child { margin-bottom: 0; }
+
+  .section ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #1aa872;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  @media print {
+    html, body { background: white; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="sidebar">
+    <img class="portrait" src="img/Attila_ID.png" alt="Attila Nemet">
+
+    <div class="sidebar-identity">
+      <h1>Attila Nemet</h1>
+      <p>Personal User Manual</p>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>What you get at my best</h2>
+      </div>
+      <ul>
+        <li>Proactive, idea-driven problem solving</li>
+        <li>Concise thinking with strong big-picture vision</li>
+        <li>Collaborative leadership that gets people onboard</li>
+        <li>Calm, optimistic energy under pressure</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="section s1" data-num="2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>How to communicate with me</h2>
+      </div>
+      <ul>
+        <li>Be direct, clear, and concise</li>
+        <li>Bring ideas into open discussion and healthy debate</li>
+        <li>Share the context and overall purpose</li>
+        <li>Use practical examples or testable options</li>
+      </ul>
+    </div>
+
+    <div class="section s2" data-num="3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>What motivates / demotivates me</h2>
+      </div>
+      <ul>
+        <li>Motivated by teamwork, positive impact, and creating new things</li>
+        <li>Energized by variety, flexibility, and new challenges</li>
+        <li>Enjoys design work, helping others, and thoughtful evaluation</li>
+        <li>Demotivated by rigid rules, repetitive routine, and narrowly defined tasks</li>
+      </ul>
+    </div>
+
+    <div class="section s3" data-num="4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>What I need from others</h2>
+      </div>
+      <ul>
+        <li>Active listening and a people-first mindset</li>
+        <li>Space to contribute ideas and challenge assumptions</li>
+        <li>Mutual respect, trust, and shared ownership</li>
+        <li>Flexibility rather than micromanagement</li>
+        <li>Practical support when learning something new</li>
+      </ul>
+    </div>
+
+    <div class="section s4" data-num="5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>Watch-outs &amp; triggers</h2>
+      </div>
+      <ul>
+        <li>I may under-advocate for my ideas unless prompted</li>
+        <li>Too much routine or lack of stimulation drains my energy</li>
+        <li>Excessive social interaction can reduce my focus</li>
+        <li>High-stakes situations benefit from objective checkpoints</li>
+        <li>Clear ownership helps on detail-heavy finishing tasks</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
