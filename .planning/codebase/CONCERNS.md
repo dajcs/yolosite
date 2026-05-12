@@ -43,12 +43,6 @@
 - **File:** `web/next.config.ts`
 - Custom `.env` parsing logic that silently fails on comments or malformed lines. Should use `dotenv` or rely on Next.js built-in `.env` handling.
 
-## Content Bugs
-
-| File | Issue |
-|------|-------|
-| `web/app/components/Education.tsx` | Typo: "Cybersecuirty" (should be "Cybersecurity") |
-| Portfolio component | `status` field stores a URL but renders as a text badge with no hyperlink — dead links |
 
 ## Missing Features
 

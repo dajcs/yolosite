@@ -14,7 +14,9 @@ if (fs.existsSync(envFile)) {
 }
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // In production (next build), use static export for GitHub Pages deployment.
+  // In development (next dev), skip static export so the dev server works fully.
+  ...(process.env.NODE_ENV === "production" && { output: "export" }),
   images: {
     unoptimized: true,
   },

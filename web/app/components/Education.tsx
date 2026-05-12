@@ -6,7 +6,7 @@ import { GraduationCap } from "lucide-react";
 
 const education = [
   {
-    degree: "DLH Academy — Cybersecuirty",
+    degree: "DLH Academy — Cybersecurity",
     institution: "DLH Academy",
     period: "2026 — present",
     details: [
