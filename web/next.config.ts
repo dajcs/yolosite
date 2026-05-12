@@ -18,7 +18,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/yolosite',
+  // In production (next build), keep /yolosite for GitHub Pages deployment.
+  // In development (next dev), use no basePath so localhost:3000/ works.
+  basePath: process.env.NODE_ENV === "production" ? "/yolosite" : "",
 };
 
 export default nextConfig;
