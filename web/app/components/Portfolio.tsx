@@ -72,15 +72,31 @@ export default function Portfolio() {
                   className="w-3 h-3 rounded-full mt-1"
                   style={{ background: item.color }}
                 />
-                <span
-                  className="text-xs px-2.5 py-1 rounded-full font-medium"
-                  style={{
-                    background: `${item.color}15`,
-                    color: item.color,
-                  }}
-                >
-                  {item.status}
-                </span>
+                {item.status.startsWith("http") ? (
+                  <a
+                    href={item.status}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs px-2.5 py-1 rounded-full font-medium inline-flex items-center gap-1 hover:opacity-80 transition-opacity"
+                    style={{
+                      background: `${item.color}15`,
+                      color: item.color,
+                    }}
+                  >
+                    {item.status.replace(/^https?:\/\//, "")}
+                    <ExternalLink size={10} />
+                  </a>
+                ) : (
+                  <span
+                    className="text-xs px-2.5 py-1 rounded-full font-medium"
+                    style={{
+                      background: `${item.color}15`,
+                      color: item.color,
+                    }}
+                  >
+                    {item.status}
+                  </span>
+                )}
               </div>
 
               <h3 className="text-lg font-bold mb-3" style={{ color: "#e8edf5" }}>
