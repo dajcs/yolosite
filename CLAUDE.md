@@ -26,9 +26,7 @@ Single-page Next.js 16 app (React 19, TypeScript, Tailwind v4, Framer Motion, Lu
 - `layout.tsx` — sets `<html>` and global metadata
 - `globals.css` — defines all CSS variables (colors, surfaces) and registers them as Tailwind tokens via `@theme inline`
 - `components/` — one file per page section (Hero, About, Career, Skills, Education, School42, Portfolio, DigitalTwin, Contact, Nav, Footer)
-- `api/chat/route.ts` — streaming POST route; proxies to OpenRouter (`openai/gpt-oss-120b:free`), returns SSE; requires `OPENROUTER_API_KEY` env var
-
-The `next.config.ts` manually loads a root-level `.env` file so the API key is available to the Next.js server when running inside Docker (where the working directory is `web/` but the `.env` sits one level up).
+- `api/chat/route.ts` — streaming POST route; proxies to OpenRouter (`openai/gpt-oss-120b:free`), returns SSE; requires `OPENROUTER_API_KEY` env var (provided via `env_file: .env` in docker-compose.yml)
 
 ## Color Scheme
 

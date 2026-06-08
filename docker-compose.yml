@@ -1,9 +1,15 @@
 services:
-  web:
+  yolosite:
     build: ./web
     environment:
       HOSTNAME: 0.0.0.0
       PORT: 3000
-    ports:
-      - "127.0.0.1:3000:3000"
     env_file: .env
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    name: proxy
