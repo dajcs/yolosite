@@ -14,15 +14,19 @@ if (fs.existsSync(envFile)) {
 }
 
 const nextConfig: NextConfig = {
-  // In production (next build), use static export for GitHub Pages deployment.
-  // In development (next dev), skip static export so the dev server works fully.
-  ...(process.env.NODE_ENV === "production" && { output: "export" }),
+  ...(process.env.NEXT_OUTPUT_MODE === "standalone"
+    ? { output: "standalone" }
+    : process.env.NODE_ENV === "production"
+      ? { output: "export" }
+      : {}),
   images: {
     unoptimized: true,
   },
-  // In production (next build), keep /yolosite for GitHub Pages deployment.
-  // In development (next dev), use no basePath so localhost:3000/ works.
-  basePath: process.env.NODE_ENV === "production" ? "/yolosite" : "",
+  basePath:
+    process.env.NODE_ENV === "production" &&
+    process.env.NEXT_OUTPUT_MODE !== "standalone"
+      ? "/yolosite"
+      : "",
 };
 
 export default nextConfig;
