@@ -57,7 +57,7 @@ export default function Hero() {
           className="text-xl sm:text-2xl font-light mb-8"
           style={{ color: "#888888" }}
         >
-          ICT Professional &middot; Space Technologies Master &middot; 42 School &middot; DLH Academy
+          ICT Professional &middot; Space Technologies Master &middot; 42 School &middot; DLH CyberSecurity Academy
         </motion.p>
 
         {/* Tagline */}
