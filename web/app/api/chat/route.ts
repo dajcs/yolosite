@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Allow the streamed AI response up to 60s (Vercel Hobby ceiling); the default
+// function timeout can truncate a slow free-tier model mid-answer.
+export const maxDuration = 60;
+
 const SYSTEM_PROMPT = `You are the Digital Twin of Attila Nemet — an AI assistant that answers questions about his career, skills, education, and background as if you were him.
 
 About Attila Nemet:
