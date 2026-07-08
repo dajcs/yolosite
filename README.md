@@ -24,5 +24,6 @@ Import the GitHub repo, then in the Vercel project settings:
 
 - **Root Directory**: `web` (the Next.js app is in a subdirectory — required).
 - **Environment Variables**: `OPENROUTER_API_KEY` (required). `OPENROUTER_MODEL` is optional (defaults in code).
+- **Live site**: [https://yolosite.vercel.app](https://yolosite.vercel.app)
 
 Framework, build command, and output are auto-detected. Docker is only for local use; Vercel builds the app directly.

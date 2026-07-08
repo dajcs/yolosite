@@ -8,10 +8,8 @@
   - `linkedin.pdf`: my linkedin profile in PDF format
   - `resume-references.pdf`: detailing my telecom project experience
   - `cv_anemet.pdf`: a more recent CV including my space technologies interest/studies
-  - `42transcript.pdf`: my current studies at school 42 
-    - **note1**: the line
-    "Attila Nemet : Common core achieved at: 87%" is a mistake, the actual percentage is **98%** - only the CV project is missing from the common core, and this CV site shows that I am capable of doing it. Please use the **98%** figure on the website.
-    - **note2**: currently I'm doing AI and Cybersecurity specialization projects at school 42 and additionally I am doing in parallel the [DLH Cybersecurity Academy](https://www.dlh.lu/cs-academy), which is a 12-month intensive training program in cybersecurity. Please update the website with this information as well.
+  - `42transcript.pdf`: my current studies at school 42
+    - **note**: currently I'm doing AI and Cybersecurity specialization projects at school 42 and additionally I am doing in parallel the [DLH Cybersecurity Academy](https://www.dlh.lu/cs-academy), which is a 12-month intensive training program in cybersecurity. Please update the website with this information as well.
   - `*_Motivation.pdf`: motivation letters for various applications, which shows my diverese interests on different fields and my motivation to learn and grow.
   - `Letter.of.Rec_SnT_JQuerol.pdf`: letter of recommendation from my professor at the University of Luxembourg
   - `staats_exam_A1.pdf`: exam certificate allowing me to get Luxembourgish government jobs (done in French)
@@ -45,4 +43,4 @@
 
 1. Use latest versions of libraries and idiomatic approaches as of today
 2. Keep it simple - NEVER over-engineer, ALWAYS simplify, NO unnecessary defensive programming. No extra features - focus on simplicity.
-3. Be concise. Keep README minimal. 
+3. Be concise. Keep README minimal.

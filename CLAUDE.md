@@ -4,15 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-All commands run from `web/`:
-
-```bash
-npm run dev      # dev server at http://localhost:3000
-npm run build    # production build
-npm run lint     # ESLint
-```
-
-Or from the repo root with Docker:
+Run from repo root with Docker:
 
 ```bash
 docker compose up --build
@@ -47,10 +39,9 @@ Use these CSS variables (available as Tailwind classes like `text-yellow`, `bg-s
 
 - Latest library versions, idiomatic approaches
 - Keep it simple — no over-engineering, no unnecessary defensive programming, no extra features
-- No emojis anywhere in code or content
 - Keep README minimal
 
-## AGENTS.md 
+## AGENTS.md
 
 The original project requirements in @AGENTS.md
 Should be used as a reference when implementing features or making design decisions.
