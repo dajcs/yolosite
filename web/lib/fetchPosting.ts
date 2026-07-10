@@ -34,14 +34,51 @@ export function htmlToPostingText(html: string): string {
 
 const MIN_LENGTH = 300;
 const MAX_LENGTH = 30_000;
+const USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36";
+
+// LinkedIn email links (/comm/jobs/view/{id}/…) and canonical /jobs/view/{id}
+// links both force a login wall. LinkedIn's public guest endpoint returns the
+// full job description with no auth, so we map job links to it.
+const LINKEDIN_JOB = /linkedin\.com\/.*?(?:jobs\/view\/|currentJobId=)(\d+)/i;
+
+export function linkedInGuestUrl(url: string): string | null {
+  const match = url.match(LINKEDIN_JOB);
+  return match
+    ? `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${match[1]}`
+    : null;
+}
+
+async function fetchLinkedInGuest(url: string): Promise<string | null> {
+  const guest = linkedInGuestUrl(url);
+  if (!guest) return null;
+  let response: Response;
+  try {
+    response = await fetch(guest, {
+      headers: { "User-Agent": USER_AGENT, Accept: "text/html" },
+      signal: AbortSignal.timeout(20_000),
+    });
+  } catch {
+    return null;
+  }
+  if (!response.ok) return null;
+
+  // The description lives in the single description__text container; slice from
+  // just after its opening tag so the surrounding sign-in chrome is dropped.
+  const html = await response.text();
+  const marker = html.indexOf("description__text");
+  if (marker === -1) return null;
+  const start = html.indexOf(">", marker) + 1;
+  const text = htmlToPostingText(html.slice(start));
+  return text.length >= MIN_LENGTH ? text.slice(0, MAX_LENGTH) : null;
+}
 
 async function fetchDirect(url: string): Promise<string | null> {
   let response: Response;
   try {
     response = await fetch(url, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+        "User-Agent": USER_AGENT,
         Accept: "text/html,application/xhtml+xml",
       },
       redirect: "follow",
@@ -84,5 +121,9 @@ async function fetchViaJina(url: string): Promise<string | null> {
 }
 
 export async function fetchPostingText(url: string): Promise<string | null> {
-  return (await fetchDirect(url)) ?? (await fetchViaJina(url));
+  return (
+    (await fetchLinkedInGuest(url)) ??
+    (await fetchDirect(url)) ??
+    (await fetchViaJina(url))
+  );
 }

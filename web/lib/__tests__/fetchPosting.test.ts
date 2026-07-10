@@ -1,5 +1,39 @@
 import { describe, it, expect } from "vitest";
-import { htmlToPostingText, stripConsentLines } from "../fetchPosting";
+import {
+  htmlToPostingText,
+  stripConsentLines,
+  linkedInGuestUrl,
+} from "../fetchPosting";
+
+describe("linkedInGuestUrl", () => {
+  const guest = (id: string) =>
+    `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${id}`;
+
+  it("maps email tracking links (/comm/jobs/view/)", () => {
+    expect(
+      linkedInGuestUrl(
+        "https://www.linkedin.com/comm/jobs/view/4433282804/?trk=abc",
+      ),
+    ).toBe(guest("4433282804"));
+  });
+
+  it("maps canonical /jobs/view/ links", () => {
+    expect(
+      linkedInGuestUrl("https://www.linkedin.com/jobs/view/123456"),
+    ).toBe(guest("123456"));
+  });
+
+  it("maps currentJobId query links", () => {
+    expect(
+      linkedInGuestUrl("https://www.linkedin.com/jobs/search/?currentJobId=999"),
+    ).toBe(guest("999"));
+  });
+
+  it("returns null for non-job or non-linkedin urls", () => {
+    expect(linkedInGuestUrl("https://www.linkedin.com/in/someone")).toBeNull();
+    expect(linkedInGuestUrl("https://example.com/jobs/view/1")).toBeNull();
+  });
+});
 
 describe("htmlToPostingText", () => {
   it("extracts readable text and skips nav/footer/script", () => {
