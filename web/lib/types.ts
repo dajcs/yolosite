@@ -56,3 +56,19 @@ export type ExtractedOffer = {
   requirements: string | null;
   link: string | null;
 };
+
+export const EMAIL_CLASSIFICATIONS = ["job", "no_job", "unknown"] as const;
+export type EmailClassification = (typeof EMAIL_CLASSIFICATIONS)[number];
+
+export type EmailRow = {
+  message_id: string;
+  uid: number | null;
+  date: string; // 'YYYY-MM-DD HH24:MI'
+  from_addr: string;
+  to_addr: string;
+  subject: string;
+  classification: EmailClassification;
+  manual: boolean;
+  pulled: boolean;
+  offers_found: number | null;
+};

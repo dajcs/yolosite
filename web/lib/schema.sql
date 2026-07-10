@@ -36,7 +36,15 @@ CREATE TABLE IF NOT EXISTS app_state (
   value text NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS processed_emails (
+CREATE TABLE IF NOT EXISTS emails (
   message_id text PRIMARY KEY,
-  processed_at timestamptz NOT NULL DEFAULT now()
+  uid integer,
+  date timestamptz,
+  from_addr text,
+  to_addr text,
+  subject text,
+  classification text NOT NULL DEFAULT 'unknown',
+  manual boolean NOT NULL DEFAULT false,
+  pulled_at timestamptz,
+  offers_found integer
 )
