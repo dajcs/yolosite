@@ -133,7 +133,7 @@ Replace the OpenRouter `chatJson()` with a Gemini call (keep `parseModelJson()` 
 | Route | Method | Behavior |
 |---|---|---|
 | `/api/assistant/emails/list` | POST `{start, end}` (ISO dates) | IMAP header listing → `upsertEmails` → `setState("last_email_check", end)` → returns `{emails: EmailRow[]}` |
-| `/api/assistant/emails/[id]` | PATCH `{classification}` | Manual color set (`[id]` = URL-encoded `message_id`). Returns updated row. |
+| `/api/assistant/emails/[id]` | PATCH `{classification}` | Manual color set (`[id]` = URL-encoded `message_id`). Returns `{ok: true}`; the client updates the row optimistically. |
 | `/api/assistant/emails/[id]/pull` | POST | Pull one email (see §3 Phase 2). Returns `{offers: ExtractedOffer[], offersFound, classification}`. On Gemini rate limit returns HTTP 429 → client waits ~30 s and retries the same email (max 3 attempts). Errors (IMAP miss, etc.) return 4xx/5xx with a message shown inline on that row. |
 | `/api/assistant/check-email` | — | **Deleted**, together with `CheckEmailButton.tsx`. |
 
