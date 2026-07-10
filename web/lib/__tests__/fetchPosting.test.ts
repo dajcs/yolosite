@@ -3,7 +3,38 @@ import {
   htmlToPostingText,
   stripConsentLines,
   linkedInGuestUrl,
+  cleanUrl,
 } from "../fetchPosting";
+
+describe("cleanUrl", () => {
+  it("canonicalizes LinkedIn job links (drops all tracking)", () => {
+    expect(
+      cleanUrl(
+        "https://www.linkedin.com/comm/jobs/view/4412022121/?trackingId=x&otpToken=SECRET&trk=eml",
+      ),
+    ).toBe("https://www.linkedin.com/jobs/view/4412022121");
+  });
+
+  it("strips known tracking params but keeps meaningful ones", () => {
+    const cleaned = cleanUrl(
+      "http://careers.ses.com/job/Chennai-Engineer%2C-Service-Monitoring/1381125433/?from=email&refid=26318715101&utm_source=J2WEmail&source=2&eid=45401&locale=en_GB",
+    );
+    expect(cleaned).not.toMatch(/utm_source|refid|from=|source=|eid=/);
+    expect(cleaned).toContain("1381125433");
+    expect(cleaned).toContain("locale=en_GB");
+  });
+
+  it("keeps essential job-id query params", () => {
+    expect(cleanUrl("https://boards.greenhouse.io/acme/jobs/123?gh_jid=456")).toBe(
+      "https://boards.greenhouse.io/acme/jobs/123?gh_jid=456",
+    );
+  });
+
+  it("leaves clean urls and non-urls untouched", () => {
+    expect(cleanUrl("https://example.com/job/1")).toBe("https://example.com/job/1");
+    expect(cleanUrl("not a url")).toBe("not a url");
+  });
+});
 
 describe("linkedInGuestUrl", () => {
   const guest = (id: string) =>

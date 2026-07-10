@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { createApplication } from "./applications";
-import { fetchPostingText } from "./fetchPosting";
+import { fetchPostingText, cleanUrl } from "./fetchPosting";
 import type { ExtractedOffer, Offer } from "./types";
 
 export async function listOffers(): Promise<Offer[]> {
@@ -20,10 +20,11 @@ export async function createOffer(
     link?: string | null;
   },
 ): Promise<number> {
+  const link = extra.link ?? offer.link;
   const rows = await db()`
     INSERT INTO offers (source, email_ref, link, posting_text, employer, title,
                         location, ref_id, deadline, requirements)
-    VALUES (${extra.source}, ${extra.email_ref ?? null}, ${extra.link ?? offer.link},
+    VALUES (${extra.source}, ${extra.email_ref ?? null}, ${link ? cleanUrl(link) : null},
             ${extra.posting_text ?? null}, ${offer.employer}, ${offer.title},
             ${offer.location}, ${offer.ref_id}, ${offer.deadline}, ${offer.requirements})
     RETURNING id`;

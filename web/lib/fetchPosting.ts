@@ -49,6 +49,47 @@ export function linkedInGuestUrl(url: string): string | null {
     : null;
 }
 
+// Email/analytics tracking query params to drop from stored links. A denylist
+// (not "strip all params") so essential job-id params like gh_jid survive.
+const TRACKING_PARAMS = new Set([
+  "trk",
+  "trkemail",
+  "trackingid",
+  "refid",
+  "lipi",
+  "midtoken",
+  "midsig",
+  "eid",
+  "otptoken",
+  "from",
+  "source",
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_term",
+  "utm_content",
+  "gclid",
+  "fbclid",
+  "mc_cid",
+  "mc_eid",
+]);
+
+// Strip tracking cruft from a posting link before storing/displaying it.
+// LinkedIn job links collapse to their canonical, tracking-free apply URL.
+export function cleanUrl(url: string): string {
+  const li = url.match(LINKEDIN_JOB);
+  if (li) return `https://www.linkedin.com/jobs/view/${li[1]}`;
+  try {
+    const parsed = new URL(url);
+    for (const key of [...parsed.searchParams.keys()]) {
+      if (TRACKING_PARAMS.has(key.toLowerCase())) parsed.searchParams.delete(key);
+    }
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
 async function fetchLinkedInGuest(url: string): Promise<string | null> {
   const guest = linkedInGuestUrl(url);
   if (!guest) return null;
