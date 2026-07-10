@@ -1,2 +1,5 @@
 .env
+.vercel
+.env.local
+web/.env.local
 docker-compose.override.yml
