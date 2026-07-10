@@ -90,7 +90,7 @@ export default function EmailPanel({ lastCheck }: { lastCheck: string | null }) 
         state: "pulling",
         text: attempt === 0 ? "pulling…" : `retry ${attempt}…`,
       });
-      const res = await fetch(`/api/assistant/emails/${id}/pull`, {
+      const res = await fetch(`/api/assistant/emails/${id}`, {
         method: "POST",
       });
       if (res.status === 429) {
