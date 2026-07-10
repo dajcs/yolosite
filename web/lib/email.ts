@@ -1,18 +1,18 @@
 import { ImapFlow } from "imapflow";
 import { simpleParser } from "mailparser";
-import { db } from "./db";
 import { htmlToPostingText } from "./fetchPosting";
 
-export type InboxEmail = {
+export type EmailHeader = {
   messageId: string;
-  subject: string;
-  from: string;
+  uid: number;
   date: Date;
-  body: string;
+  from: string;
+  to: string;
+  subject: string;
 };
 
-export async function fetchEmailsSince(since: Date): Promise<InboxEmail[]> {
-  const client = new ImapFlow({
+function imapClient(): ImapFlow {
+  return new ImapFlow({
     host: "imap.gmail.com",
     port: 993,
     secure: true,
@@ -22,26 +22,42 @@ export async function fetchEmailsSince(since: Date): Promise<InboxEmail[]> {
     },
     logger: false,
   });
+}
 
+function addressList(
+  entries: { address?: string; name?: string }[] | undefined,
+): string {
+  return (entries ?? []).map((a) => a.address ?? a.name ?? "").join(", ");
+}
+
+export async function listEmailHeaders(
+  start: Date,
+  end: Date,
+): Promise<EmailHeader[]> {
+  const client = imapClient();
   await client.connect();
-  const emails: InboxEmail[] = [];
+  const headers: EmailHeader[] = [];
   const lock = await client.getMailboxLock("INBOX");
   try {
-    const uids = await client.search({ since });
-    const recent = (uids || []).slice(-50); // hard cap per connection
-    if (recent.length > 0) {
-      for await (const message of client.fetch(recent, { source: true })) {
-        if (!message.source) continue;
-        const parsed = await simpleParser(message.source);
-        const body =
-          parsed.text?.trim() ||
-          (parsed.html ? htmlToPostingText(parsed.html) : "");
-        emails.push({
-          messageId: parsed.messageId ?? `uid-${message.uid}`,
-          subject: parsed.subject ?? "(no subject)",
-          from: parsed.from?.text ?? "",
-          date: parsed.date ?? new Date(),
-          body,
+    // IMAP date search is day-granular and BEFORE is exclusive.
+    const before = new Date(end);
+    before.setDate(before.getDate() + 1);
+    const uids = await client.search({ since: start, before }, { uid: true });
+    if (uids && uids.length > 0) {
+      for await (const msg of client.fetch(
+        uids,
+        { envelope: true, uid: true },
+        { uid: true },
+      )) {
+        const env = msg.envelope;
+        if (!env) continue;
+        headers.push({
+          messageId: env.messageId ?? `uid-${msg.uid}`,
+          uid: msg.uid,
+          date: env.date ?? new Date(),
+          from: addressList(env.from),
+          to: addressList(env.to),
+          subject: env.subject ?? "(no subject)",
         });
       }
     }
@@ -49,17 +65,35 @@ export async function fetchEmailsSince(since: Date): Promise<InboxEmail[]> {
     lock.release();
   }
   await client.logout();
-  return emails;
+  return headers;
 }
 
-export async function isProcessed(messageId: string): Promise<boolean> {
-  const rows = await db()`
-    SELECT 1 FROM processed_emails WHERE message_id = ${messageId}`;
-  return rows.length > 0;
-}
-
-export async function markProcessed(messageId: string): Promise<void> {
-  await db()`
-    INSERT INTO processed_emails (message_id) VALUES (${messageId})
-    ON CONFLICT DO NOTHING`;
+export async function fetchEmailBody(
+  uid: number,
+): Promise<{ subject: string; from: string; body: string } | null> {
+  const client = imapClient();
+  await client.connect();
+  let result: { subject: string; from: string; body: string } | null = null;
+  const lock = await client.getMailboxLock("INBOX");
+  try {
+    const msg = await client.fetchOne(
+      String(uid),
+      { source: true },
+      { uid: true },
+    );
+    if (msg && msg.source) {
+      const parsed = await simpleParser(msg.source);
+      result = {
+        subject: parsed.subject ?? "(no subject)",
+        from: parsed.from?.text ?? "",
+        body:
+          parsed.text?.trim() ||
+          (parsed.html ? htmlToPostingText(parsed.html) : ""),
+      };
+    }
+  } finally {
+    lock.release();
+  }
+  await client.logout();
+  return result;
 }
