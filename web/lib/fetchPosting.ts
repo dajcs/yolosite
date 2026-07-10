@@ -81,6 +81,15 @@ export function cleanUrl(url: string): string {
   if (li) return `https://www.linkedin.com/jobs/view/${li[1]}`;
   try {
     const parsed = new URL(url);
+    // Glassdoor job-listing links carry many opaque tracking params; the jl
+    // (job-listing id) is the only essential one.
+    if (
+      /glassdoor\./i.test(parsed.hostname) &&
+      parsed.pathname.includes("/job-listing/")
+    ) {
+      const jl = parsed.searchParams.get("jl");
+      return `${parsed.origin}${parsed.pathname}${jl ? `?jl=${jl}` : ""}`;
+    }
     for (const key of [...parsed.searchParams.keys()]) {
       if (TRACKING_PARAMS.has(key.toLowerCase())) parsed.searchParams.delete(key);
     }

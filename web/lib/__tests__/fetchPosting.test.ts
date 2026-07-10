@@ -24,6 +24,15 @@ describe("cleanUrl", () => {
     expect(cleaned).toContain("locale=en_GB");
   });
 
+  it("canonicalizes Glassdoor job-listing links to path + jl", () => {
+    const long =
+      "https://www.glassdoor.fr/job-listing/postdoc-ai-universit%C3%A9-du-luxembourg-JV_IC2941924_KO0,55_KE56,80.htm?jl=1010192499322&tgt=GD_JOB_VIEW&src=GD_JOB_AD&s=224&t=JA&ja=271220987&jobListingId=1010192499322&cb=1783535405773";
+    const expected =
+      "https://www.glassdoor.fr/job-listing/postdoc-ai-universit%C3%A9-du-luxembourg-JV_IC2941924_KO0,55_KE56,80.htm?jl=1010192499322";
+    expect(cleanUrl(long)).toBe(expected);
+    expect(cleanUrl(expected)).toBe(expected); // idempotent
+  });
+
   it("keeps essential job-id query params", () => {
     expect(cleanUrl("https://boards.greenhouse.io/acme/jobs/123?gh_jid=456")).toBe(
       "https://boards.greenhouse.io/acme/jobs/123?gh_jid=456",
