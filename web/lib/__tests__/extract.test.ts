@@ -1,5 +1,34 @@
-import { describe, it, expect } from "vitest";
-import { normalizeOffer } from "../extract";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+vi.mock("../llm", () => ({ chatJson: vi.fn() }));
+
+import { chatJson } from "../llm";
+import { normalizeOffer, extractOffersFromEmail } from "../extract";
+
+const chatJsonMock = vi.mocked(chatJson);
+
+describe("extractOffersFromEmail", () => {
+  beforeEach(() => chatJsonMock.mockReset());
+
+  it("returns null when the model call fails", async () => {
+    chatJsonMock.mockResolvedValue(null);
+    expect(await extractOffersFromEmail("s", "f", "b")).toBeNull();
+  });
+
+  it("returns [] when the model finds no offers", async () => {
+    chatJsonMock.mockResolvedValue({ offers: [] });
+    expect(await extractOffersFromEmail("s", "f", "b")).toEqual([]);
+  });
+
+  it("normalizes offers and drops invalid ones", async () => {
+    chatJsonMock.mockResolvedValue({
+      offers: [{ title: "Dev", employer: " ESA " }, { location: "junk only" }],
+    });
+    const offers = await extractOffersFromEmail("s", "f", "b");
+    expect(offers).toHaveLength(1);
+    expect(offers?.[0]).toMatchObject({ title: "Dev", employer: "ESA" });
+  });
+});
 
 describe("normalizeOffer", () => {
   it("keeps valid string fields and trims them", () => {

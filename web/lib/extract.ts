@@ -23,34 +23,44 @@ export function normalizeOffer(raw: unknown): ExtractedOffer | null {
   return offer.title || offer.employer ? offer : null;
 }
 
-const OFFER_SHAPE = `{
-  "employer": "company name or null",
-  "title": "position title or null",
-  "location": "city/country or null",
-  "ref_id": "job reference id or null",
-  "deadline": "application deadline or null",
-  "requirements": "2-4 sentence summary of the key requirements, or null",
-  "link": "direct URL to the job posting or null"
-}`;
+// Gemini structured-output schema (OpenAPI-style subset, uppercase types).
+const OFFER_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    employer: { type: "STRING", nullable: true },
+    title: { type: "STRING", nullable: true },
+    location: { type: "STRING", nullable: true },
+    ref_id: { type: "STRING", nullable: true },
+    deadline: { type: "STRING", nullable: true },
+    requirements: { type: "STRING", nullable: true },
+    link: { type: "STRING", nullable: true },
+  },
+};
+
+const OFFERS_SCHEMA = {
+  type: "OBJECT",
+  properties: { offers: { type: "ARRAY", items: OFFER_SCHEMA } },
+  required: ["offers"],
+};
 
 export async function extractOffersFromEmail(
   subject: string,
   from: string,
   body: string,
-): Promise<ExtractedOffer[]> {
-  const prompt = `Below is an email. If it is job-related (a job-board alert digest with one or more listings, or a recruiter describing a position), extract every distinct job offer it contains. If it is not job-related (newsletter, receipt, personal mail, spam), return {"offers": []}.
+): Promise<ExtractedOffer[] | null> {
+  const prompt = `Below is an email. If it is job-related (a job-board alert digest with one or more listings, or a recruiter describing a position), extract every distinct job offer it contains. If it is not job-related (newsletter, receipt, personal mail, spam), return an empty offers array.
 
-Respond with ONLY strict JSON, no markdown fences, in this shape:
-{"offers": [${OFFER_SHAPE}]}
+For each offer: employer (company name), title (position title), location (city/country), ref_id (job reference id), deadline (application deadline), requirements (2-4 sentence summary of the key requirements), link (direct URL to the job posting). Use null for anything not present.
 
 Email subject: ${subject}
 Email from: ${from}
 Email body:
 ${body.slice(0, 15000)}`;
 
-  const parsed = await chatJson(prompt);
-  const offers = (parsed as { offers?: unknown[] } | null)?.offers;
-  if (!Array.isArray(offers)) return [];
+  const parsed = await chatJson(prompt, OFFERS_SCHEMA);
+  if (parsed === null) return null;
+  const offers = (parsed as { offers?: unknown[] }).offers;
+  if (!Array.isArray(offers)) return null;
   return offers
     .map(normalizeOffer)
     .filter((o): o is ExtractedOffer => o !== null);
@@ -60,15 +70,12 @@ export async function extractOfferFromText(
   text: string,
   link?: string,
 ): Promise<ExtractedOffer | null> {
-  const prompt = `Below is the text of a job posting. Extract its key characteristics.
-
-Respond with ONLY strict JSON, no markdown fences, in this shape:
-${OFFER_SHAPE}
+  const prompt = `Below is the text of a job posting. Extract its key characteristics: employer (company name), title (position title), location (city/country), ref_id (job reference id), deadline (application deadline), requirements (2-4 sentence summary of the key requirements), link (direct URL to the job posting). Use null for anything not present.
 
 ${link ? `Posting URL: ${link}\n` : ""}Posting text:
 ${text.slice(0, 15000)}`;
 
-  const offer = normalizeOffer(await chatJson(prompt));
+  const offer = normalizeOffer(await chatJson(prompt, OFFER_SCHEMA));
   if (offer && link && !offer.link) offer.link = link;
   return offer;
 }

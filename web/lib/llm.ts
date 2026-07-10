@@ -1,4 +1,6 @@
-const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+
+export class RateLimitedError extends Error {}
 
 export function parseModelJson(text: string): unknown | null {
   const start = text.indexOf("{");
@@ -11,35 +13,48 @@ export function parseModelJson(text: string): unknown | null {
   }
 }
 
-export async function chatJson(prompt: string): Promise<unknown | null> {
-  const apiKey = process.env.OPENROUTER_API_KEY;
+export function geminiText(data: unknown): string {
+  const d = data as {
+    candidates?: { content?: { parts?: { text?: string }[] } }[];
+  } | null;
+  return (
+    d?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? ""
+  );
+}
+
+export async function chatJson(
+  prompt: string,
+  schema: object,
+): Promise<unknown | null> {
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
+  // gemini-flash-lite-latest: fast, best free-tier limits, and the `-latest`
+  // alias stays valid as Google retires pinned versions (the pinned 2.5 models
+  // now 404 for new API keys). Override with GEMINI_MODEL if desired.
+  const model = process.env.GEMINI_MODEL ?? "gemini-flash-lite-latest";
 
   let response: Response;
   try {
-    response = await fetch(OPENROUTER_URL, {
+    response = await fetch(`${GEMINI_BASE}/${model}:generateContent`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        "x-goog-api-key": apiKey,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model:
-          process.env.EXTRACTION_MODEL ??
-          process.env.OPENROUTER_MODEL ??
-          "nvidia/nemotron-3-super-120b-a12b:free",
-        messages: [{ role: "user", content: prompt }],
-        stream: false,
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: schema,
+        },
       }),
       signal: AbortSignal.timeout(60_000),
     });
   } catch {
     return null;
   }
+  if (response.status === 429) throw new RateLimitedError("Gemini rate limit");
   if (!response.ok) return null;
 
-  const data = (await response.json()) as {
-    choices?: { message?: { content?: string } }[];
-  };
-  return parseModelJson(data.choices?.[0]?.message?.content ?? "");
+  return parseModelJson(geminiText(await response.json()));
 }

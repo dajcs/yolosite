@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseModelJson } from "../llm";
+import { parseModelJson, geminiText } from "../llm";
 
 describe("parseModelJson", () => {
   it("parses plain JSON", () => {
@@ -22,5 +22,24 @@ describe("parseModelJson", () => {
 
   it("returns null for malformed JSON", () => {
     expect(parseModelJson('{"a": unquoted}')).toBeNull();
+  });
+});
+
+describe("geminiText", () => {
+  it("extracts and joins candidate part texts", () => {
+    expect(
+      geminiText({
+        candidates: [
+          { content: { parts: [{ text: '{"a":' }, { text: " 1}" }] } },
+        ],
+      }),
+    ).toBe('{"a": 1}');
+  });
+
+  it("returns empty string for missing candidates or parts", () => {
+    expect(geminiText({})).toBe("");
+    expect(geminiText({ candidates: [] })).toBe("");
+    expect(geminiText({ candidates: [{ content: {} }] })).toBe("");
+    expect(geminiText(null)).toBe("");
   });
 });
