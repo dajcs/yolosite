@@ -18,7 +18,30 @@ Single-page Next.js 16 app (React 19, TypeScript, Tailwind v4, Framer Motion, Lu
 - `layout.tsx` — sets `<html>` and global metadata
 - `globals.css` — defines all CSS variables (colors, surfaces) and registers them as Tailwind tokens via `@theme inline`
 - `components/` — one file per page section (Hero, About, Career, Skills, Education, School42, Portfolio, DigitalTwin, Contact, Nav, Footer)
-- `api/chat/route.ts` — streaming POST route; proxies to OpenRouter (`openai/gpt-oss-120b:free`), returns SSE; requires `OPENROUTER_API_KEY` env var (provided via `env_file: .env` in docker-compose.yml)
+- `api/chat/route.ts` — streaming POST route; proxies to OpenRouter (`OPENROUTER_MODEL`, default `nvidia/nemotron-3-super-120b-a12b:free`), returns SSE; requires `OPENROUTER_API_KEY` env var (provided via `env_file: .env` in docker-compose.yml)
+
+## Job Application Assistant (private area)
+
+Private tool at `/assistant` (Google sign-in, allow-listed to `ALLOWED_EMAIL`).
+Spec: `docs/specs/2026-07-08-job-assistant-vision.md`; email flow:
+`docs/specs/2026-07-10-email-checking-redesign.md`.
+
+- `web/app/assistant/` — offers + email panel page, applications table, client components
+- `web/app/api/assistant/*` — session-guarded routes (offers, applications + zip download,
+  emails list/pull, CSV/Excel export)
+- `web/app/api/skill/*` — bearer-token routes (`SKILL_API_TOKEN`) for the local `/apply`
+  Claude Code skill in the `cv` repo
+- `web/lib/` — `db.ts` (Neon), `types.ts` (client-safe types), `applications.ts`/`offers.ts`/
+  `emails.ts` (queries), `email.ts` (Gmail IMAP: header listing + single-body fetch),
+  `llm.ts` (Gemini structured output, default `gemini-flash-lite-latest`), `extract.ts`
+  (offer extraction), `fetchPosting.ts` (direct fetch → Jina Reader fallback, LinkedIn guest
+  endpoint, link cleanup), `csv.ts`, `exportColumns.ts`, `state.ts`, `guard.ts`
+
+Commands (from `web/`): `npm test` (vitest), `npm run db:init` (apply `lib/schema.sql` to Neon).
+
+Env vars: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `ALLOWED_EMAIL`,
+`GMAIL_USER`, `GMAIL_APP_PASSWORD`, `GEMINI_API_KEY`, `GEMINI_MODEL` (optional), `JINA_API_KEY`
+(optional), `SKILL_API_TOKEN`. The public chat uses `OPENROUTER_API_KEY` / `OPENROUTER_MODEL` (optional).
 
 ## Color Scheme
 

@@ -1,7 +1,7 @@
 # Job Application Assistant — Project Vision
 
 Date: 2026-07-08
-Status: vision agreed with owner; technical decisions in progress (see "Open technical decisions")
+Status: implemented (see docs/plans/2026-07-09-job-assistant-implementation.md)
 
 ## 1. Summary
 
