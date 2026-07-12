@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { STATUSES, STATUS_LABELS, type Application } from "@/lib/types";
+import { docName } from "@/lib/docLinks";
 
 export default function ApplicationsTable({
   applications,
@@ -35,6 +36,7 @@ export default function ApplicationsTable({
       <table className="w-full text-sm">
         <thead className="bg-surface2 text-left">
           <tr>
+            <th className="p-2">ID</th>
             <th className="p-2">Date</th>
             <th className="p-2">Employer</th>
             <th className="p-2">Position</th>
@@ -48,6 +50,7 @@ export default function ApplicationsTable({
         <tbody>
           {applications.map((a) => (
             <tr key={a.id} className="border-t border-surface2 align-top">
+              <td className="p-2">{a.id}</td>
               <td className="whitespace-nowrap p-2">{a.date}</td>
               <td className="p-2">{a.employer}</td>
               <td className="p-2">
@@ -89,7 +92,7 @@ export default function ApplicationsTable({
                     rel="noreferrer"
                     className="text-purple hover:underline"
                   >
-                    CV
+                    {docName(a.cv_url)}
                   </a>
                 )}
                 {a.letter_url && (
@@ -99,11 +102,8 @@ export default function ApplicationsTable({
                     rel="noreferrer"
                     className="ml-2 text-purple hover:underline"
                   >
-                    Letter
+                    {docName(a.letter_url)}
                   </a>
-                )}
-                {a.archive_path && (
-                  <div className="text-xs text-gray">{a.archive_path}</div>
                 )}
               </td>
               <td className="p-2">
