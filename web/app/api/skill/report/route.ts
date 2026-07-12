@@ -11,18 +11,20 @@ export async function POST(req: Request) {
     archive_path?: unknown;
     cv_url?: unknown;
     letter_url?: unknown;
+    job_md?: unknown;
   };
-  const { application_id, archive_path, cv_url, letter_url } = body;
+  const { application_id, archive_path, cv_url, letter_url, job_md } = body;
   if (
     typeof application_id !== "number" ||
     typeof archive_path !== "string" ||
     typeof cv_url !== "string" ||
-    typeof letter_url !== "string"
+    typeof letter_url !== "string" ||
+    typeof job_md !== "string"
   ) {
     return NextResponse.json(
       {
         error:
-          "Required: application_id (number), archive_path, cv_url, letter_url (strings)",
+          "Required: application_id (number), archive_path, cv_url, letter_url, job_md (strings)",
       },
       { status: 400 },
     );
@@ -30,7 +32,7 @@ export async function POST(req: Request) {
   const rows = await db()`
     UPDATE applications
     SET status = 'docs_generated', archive_path = ${archive_path},
-        cv_url = ${cv_url}, letter_url = ${letter_url}
+        cv_url = ${cv_url}, letter_url = ${letter_url}, offer_text = ${job_md}
     WHERE id = ${application_id}
     RETURNING id`;
   if (rows.length === 0) {
