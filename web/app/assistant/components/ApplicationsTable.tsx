@@ -82,12 +82,24 @@ export default function ApplicationsTable({
                 <NotesCell id={a.id} notes={a.notes} onSave={patch} />
               </td>
               <td className="whitespace-nowrap p-2">
-                {a.has_zip && (
+                {a.cv_url && (
                   <a
-                    href={`/api/assistant/applications/${a.id}/zip`}
+                    href={a.cv_url}
+                    target="_blank"
+                    rel="noreferrer"
                     className="text-purple hover:underline"
                   >
-                    zip
+                    CV
+                  </a>
+                )}
+                {a.letter_url && (
+                  <a
+                    href={a.letter_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ml-2 text-purple hover:underline"
+                  >
+                    Letter
                   </a>
                 )}
                 {a.archive_path && (
