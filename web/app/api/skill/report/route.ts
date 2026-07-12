@@ -9,34 +9,28 @@ export async function POST(req: Request) {
   const body = (await req.json()) as {
     application_id?: unknown;
     archive_path?: unknown;
-    zip_filename?: unknown;
-    zip_base64?: unknown;
+    cv_url?: unknown;
+    letter_url?: unknown;
   };
-  const { application_id, archive_path, zip_filename, zip_base64 } = body;
+  const { application_id, archive_path, cv_url, letter_url } = body;
   if (
     typeof application_id !== "number" ||
     typeof archive_path !== "string" ||
-    typeof zip_filename !== "string" ||
-    typeof zip_base64 !== "string"
+    typeof cv_url !== "string" ||
+    typeof letter_url !== "string"
   ) {
     return NextResponse.json(
       {
         error:
-          "Required: application_id (number), archive_path, zip_filename, zip_base64 (strings)",
+          "Required: application_id (number), archive_path, cv_url, letter_url (strings)",
       },
       { status: 400 },
-    );
-  }
-  if (zip_base64.length > 6_000_000) {
-    return NextResponse.json(
-      { error: "Zip too large (max ~4.5 MB)" },
-      { status: 413 },
     );
   }
   const rows = await db()`
     UPDATE applications
     SET status = 'docs_generated', archive_path = ${archive_path},
-        zip_filename = ${zip_filename}, zip_base64 = ${zip_base64}
+        cv_url = ${cv_url}, letter_url = ${letter_url}
     WHERE id = ${application_id}
     RETURNING id`;
   if (rows.length === 0) {
