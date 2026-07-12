@@ -47,4 +47,12 @@ CREATE TABLE IF NOT EXISTS emails (
   manual boolean NOT NULL DEFAULT false,
   pulled_at timestamptz,
   offers_found integer
-)
+);
+
+ALTER TABLE applications ADD COLUMN IF NOT EXISTS cv_url text;
+
+ALTER TABLE applications ADD COLUMN IF NOT EXISTS letter_url text;
+
+ALTER TABLE applications DROP COLUMN IF EXISTS zip_filename;
+
+ALTER TABLE applications DROP COLUMN IF EXISTS zip_base64
