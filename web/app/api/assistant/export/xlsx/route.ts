@@ -3,6 +3,7 @@ import ExcelJS from "exceljs";
 import { sessionOk } from "@/lib/guard";
 import { listApplications } from "@/lib/applications";
 import { EXPORT_COLUMNS } from "@/lib/exportColumns";
+import { docName } from "@/lib/docLinks";
 
 export async function GET() {
   if (!(await sessionOk())) {
@@ -17,7 +18,17 @@ export async function GET() {
     key: c.key,
     width: c.key === "offer_text" ? 60 : 18,
   }));
-  for (const row of rows) sheet.addRow(row);
+  for (const row of rows) {
+    const added = sheet.addRow(row);
+    for (const key of ["cv_url", "letter_url"]) {
+      const url = row[key];
+      if (typeof url === "string" && url !== "") {
+        const cell = added.getCell(key);
+        cell.value = { text: docName(url), hyperlink: url };
+        cell.font = { color: { argb: "FF209DD7" }, underline: true };
+      }
+    }
+  }
   sheet.getRow(1).font = { bold: true };
 
   const buffer = await workbook.xlsx.writeBuffer();
