@@ -2,8 +2,7 @@ import { db } from "./db";
 import { STATUSES, type Application, type Status } from "./types";
 
 const COLUMNS = `id, to_char(date, 'YYYY-MM-DD') AS date, link, offer_text, employer,
-  title, ref_id, status, notes, archive_path, zip_filename,
-  (zip_base64 IS NOT NULL) AS has_zip`;
+  title, ref_id, status, notes, archive_path, cv_url, letter_url`;
 
 export type NewApplication = {
   offer_id?: number | null;

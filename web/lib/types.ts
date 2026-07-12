@@ -28,8 +28,8 @@ export type Application = {
   status: Status;
   notes: string | null;
   archive_path: string | null;
-  zip_filename: string | null;
-  has_zip: boolean;
+  cv_url: string | null;
+  letter_url: string | null;
 };
 
 export type Offer = {
