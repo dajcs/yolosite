@@ -42,8 +42,8 @@ export default function ApplicationsTable({
             <th className="p-2">Position</th>
             <th className="p-2">Ref</th>
             <th className="p-2">Status</th>
-            <th className="p-2">Notes</th>
             <th className="p-2">Docs</th>
+            <th className="p-2">Notes</th>
             <th className="p-2"></th>
           </tr>
         </thead>
@@ -52,8 +52,8 @@ export default function ApplicationsTable({
             <tr key={a.id} className="border-t border-surface2 align-top">
               <td className="p-2">{a.id}</td>
               <td className="whitespace-nowrap p-2">{a.date}</td>
-              <td className="p-2">{a.employer}</td>
-              <td className="p-2">
+              <td className="min-w-40 p-2">{a.employer}</td>
+              <td className="min-w-56 p-2">
                 {a.link ? (
                   <a
                     href={a.link}
@@ -81,16 +81,13 @@ export default function ApplicationsTable({
                   ))}
                 </select>
               </td>
-              <td className="p-2">
-                <NotesCell id={a.id} notes={a.notes} onSave={patch} />
-              </td>
               <td className="whitespace-nowrap p-2">
                 {a.cv_url && (
                   <a
                     href={a.cv_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-purple hover:underline"
+                    className="block text-purple hover:underline"
                   >
                     {docName(a.cv_url)}
                   </a>
@@ -100,11 +97,14 @@ export default function ApplicationsTable({
                     href={a.letter_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="ml-2 text-purple hover:underline"
+                    className="block text-purple hover:underline"
                   >
                     {docName(a.letter_url)}
                   </a>
                 )}
+              </td>
+              <td className="p-2">
+                <NotesCell id={a.id} notes={a.notes} onSave={patch} />
               </td>
               <td className="p-2">
                 <button

@@ -34,7 +34,7 @@ export default async function AssistantLayout({
           </button>
         </form>
       </nav>
-      <main className="mx-auto max-w-5xl p-4">{children}</main>
+      <main className="mx-auto max-w-7xl p-4">{children}</main>
     </div>
   );
 }

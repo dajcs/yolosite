@@ -8,7 +8,7 @@ export const EXPORT_COLUMNS: Column[] = [
   { key: "title", header: "Position" },
   { key: "ref_id", header: "Job ref. id" },
   { key: "status", header: "Status" },
-  { key: "notes", header: "Notes" },
   { key: "cv_url", header: "CV link" },
   { key: "letter_url", header: "Cover letter link" },
+  { key: "notes", header: "Notes" },
 ];
