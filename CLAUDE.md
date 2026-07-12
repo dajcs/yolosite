@@ -27,8 +27,8 @@ Spec: `docs/specs/2026-07-08-job-assistant-vision.md`; email flow:
 `docs/specs/2026-07-10-email-checking-redesign.md`.
 
 - `web/app/assistant/` — offers + email panel page, applications table, client components
-- `web/app/api/assistant/*` — session-guarded routes (offers, applications + zip download,
-  emails list/pull, CSV/Excel export)
+- `web/app/api/assistant/*` — session-guarded routes (offers, applications, emails
+  list/pull, CSV/Excel export); application docs are GitHub links (`cv_url`, `letter_url`)
 - `web/app/api/skill/*` — bearer-token routes (`SKILL_API_TOKEN`) for the local `/apply`
   Claude Code skill in the `cv` repo
 - `web/lib/` — `db.ts` (Neon), `types.ts` (client-safe types), `applications.ts`/`offers.ts`/

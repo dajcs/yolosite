@@ -64,7 +64,7 @@ Key constraint that shaped this split: a Claude Pro subscription cannot legally/
 ## 5. Data stored
 
 - **DB:** offers (source email ref or manual origin, link, fetched posting text, extracted fields, dismissed flag), applications (table columns above + archive path), last-check timestamp.
-- **DB document store:** when the `/apply` skill reports back, it uploads a single `.zip` containing the application's `.tex` sources and rendered PDFs; the zip is stored with the application row and downloadable on click in the UI.
+- **DB document store:** ~~when the `/apply` skill reports back, it uploads a single `.zip` containing the application's `.tex` sources and rendered PDFs; the zip is stored with the application row and downloadable on click in the UI.~~ *Superseded 2026-07-12: the skill reports two GitHub PDF links instead — see `docs/specs/2026-07-12-application-doc-links.md`.*
 - **GitHub cv repo:** `.tex` sources, rendered PDFs, job description copy, extra-question answers — the canonical document archive, as today. The app additionally links to the archive path.
 
 ## 6. Access & security
