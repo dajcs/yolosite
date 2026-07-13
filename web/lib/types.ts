@@ -72,3 +72,12 @@ export type EmailRow = {
   pulled: boolean;
   offers_found: number | null;
 };
+
+export type DuplicateMatch = {
+  status: "applied" | "dismissed" | "active";
+  date: string | null;
+  employer: string | null;
+  title: string | null;
+  ref_id: string | null;
+  link: string | null;
+};
