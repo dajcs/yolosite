@@ -99,6 +99,16 @@ export async function POST(_req: NextRequest, { params }: Params) {
   const titles: string[] = [];
   const skipped: string[] = [];
   for (const offer of extracted) {
+    // Automatic insertion sticks to offers with a link: reply/confirmation
+    // emails otherwise get extracted as link-less phantom offers that dedup
+    // can never match. Text-only offers can still be added manually.
+    if (!offer.link) {
+      skipped.push(
+        `${[offer.employer, offer.title].filter(Boolean).join(" — ") || "(untitled)"} — NO LINK, not added`,
+      );
+      continue;
+    }
+
     // Check before the posting fetch + refinement: a known link/ref skips
     // the expensive enrichment entirely.
     const early = await findDuplicate(offer);

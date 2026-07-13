@@ -74,6 +74,12 @@ offer links are cleaned; skill-created applications store the raw link).
 
 ### Email pull — `app/api/assistant/emails/[id]/route.ts` POST
 
+**Amendment (2026-07-13, owner):** extracted offers without a link are never
+auto-inserted — reply/confirmation emails ("we received your application")
+otherwise become link-less phantom offers that dedup can never match (no link,
+no ref). They are reported in `skipped` as `… — NO LINK, not added`. Text-only
+offers remain addable manually.
+
 Two-phase check per extracted offer:
 
 1. **Before enrichment:** `findDuplicate` on the raw extracted offer
