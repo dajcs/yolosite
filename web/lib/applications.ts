@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { STATUSES, type Application, type Status } from "./types";
+import { cleanUrl } from "./fetchPosting";
 
 const COLUMNS = `id, to_char(date, 'YYYY-MM-DD') AS date, link, offer_text, employer,
   title, ref_id, status, notes, archive_path, cv_url, letter_url`;
@@ -24,7 +25,7 @@ export async function listApplications(): Promise<Application[]> {
 export async function createApplication(a: NewApplication): Promise<number> {
   const rows = await db()`
     INSERT INTO applications (offer_id, link, offer_text, employer, title, ref_id, notes)
-    VALUES (${a.offer_id ?? null}, ${a.link ?? null}, ${a.offer_text ?? null},
+    VALUES (${a.offer_id ?? null}, ${a.link ? cleanUrl(a.link) : null}, ${a.offer_text ?? null},
             ${a.employer ?? null}, ${a.title ?? null}, ${a.ref_id ?? null}, ${a.notes ?? null})
     RETURNING id`;
   return (rows[0] as { id: number }).id;

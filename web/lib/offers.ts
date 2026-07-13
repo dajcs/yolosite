@@ -2,6 +2,14 @@ import { db } from "./db";
 import { createApplication } from "./applications";
 import { fetchPostingText, cleanUrl } from "./fetchPosting";
 import type { ExtractedOffer, Offer } from "./types";
+import {
+  candidateKey,
+  pickDuplicate,
+  type Candidate,
+  type AppRow,
+  type OfferRow,
+} from "./dedup";
+import type { DuplicateMatch } from "./types";
 
 export async function listOffers(): Promise<Offer[]> {
   const rows = await db()`
@@ -9,6 +17,29 @@ export async function listOffers(): Promise<Offer[]> {
            link, posting_text, employer, title, location, ref_id, deadline, requirements
     FROM offers WHERE dismissed = false ORDER BY id DESC`;
   return rows as unknown as Offer[];
+}
+
+// SQL narrows by link/ref equality (NULL params match nothing); the exact
+// match rules and precedence live in pickDuplicate.
+export async function findDuplicate(
+  c: Candidate,
+): Promise<DuplicateMatch | null> {
+  const key = candidateKey(c);
+  if (!key) return null;
+  const apps = await db()`
+    SELECT employer, title, ref_id, link, to_char(date, 'YYYY-MM-DD') AS date
+    FROM applications
+    WHERE link = ${key.link} OR lower(ref_id) = lower(${key.ref})`;
+  const offers = await db()`
+    SELECT employer, title, ref_id, link, dismissed,
+           to_char(dismissed_at, 'YYYY-MM-DD') AS dismissed_date
+    FROM offers
+    WHERE link = ${key.link} OR lower(ref_id) = lower(${key.ref})`;
+  return pickDuplicate(
+    key,
+    apps as unknown as AppRow[],
+    offers as unknown as OfferRow[],
+  );
 }
 
 export async function createOffer(
