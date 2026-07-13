@@ -32,7 +32,7 @@ export async function createOffer(
 }
 
 export async function dismissOffer(id: number): Promise<void> {
-  await db()`UPDATE offers SET dismissed = true WHERE id = ${id}`;
+  await db()`UPDATE offers SET dismissed = true, dismissed_at = now() WHERE id = ${id}`;
 }
 
 export async function applyToOffer(id: number): Promise<number | null> {

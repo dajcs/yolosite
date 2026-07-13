@@ -55,4 +55,9 @@ ALTER TABLE applications ADD COLUMN IF NOT EXISTS letter_url text;
 
 ALTER TABLE applications DROP COLUMN IF EXISTS zip_filename;
 
-ALTER TABLE applications DROP COLUMN IF EXISTS zip_base64
+ALTER TABLE applications DROP COLUMN IF EXISTS zip_base64;
+
+ALTER TABLE offers ADD COLUMN IF NOT EXISTS dismissed_at timestamptz;
+
+UPDATE offers SET dismissed_at = created_at
+  WHERE dismissed = true AND dismissed_at IS NULL
