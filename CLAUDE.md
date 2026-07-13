@@ -32,7 +32,8 @@ Spec: `docs/specs/2026-07-08-job-assistant-vision.md`; email flow:
 - `web/app/api/skill/*` — bearer-token routes (`SKILL_API_TOKEN`) for the local `/apply`
   Claude Code skill in the `cv` repo
 - `web/lib/` — `db.ts` (Neon), `types.ts` (client-safe types), `applications.ts`/`offers.ts`/
-  `emails.ts` (queries), `email.ts` (Gmail IMAP: header listing + single-body fetch),
+  `emails.ts` (queries), `dedup.ts` (duplicate-offer matching: cleaned-link / employer+ref rules),
+  `email.ts` (Gmail IMAP: header listing + single-body fetch),
   `llm.ts` (Gemini structured output, default `gemini-flash-lite-latest`), `extract.ts`
   (offer extraction), `fetchPosting.ts` (direct fetch → Jina Reader fallback, LinkedIn guest
   endpoint, link cleanup), `csv.ts`, `exportColumns.ts`, `state.ts`, `guard.ts`
