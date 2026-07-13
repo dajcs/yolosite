@@ -109,14 +109,17 @@ export default function EmailPanel({ lastCheck }: { lastCheck: string | null }) 
         });
         return 0;
       }
-      const { offersFound, titles, classification } = (await res.json()) as {
-        offersFound: number;
-        titles: string[];
-        classification: EmailClassification;
-      };
+      const { offersFound, titles, skipped, classification } =
+        (await res.json()) as {
+          offersFound: number;
+          titles: string[];
+          skipped: string[];
+          classification: EmailClassification;
+        };
+      const parts = [...titles, ...skipped.map((s) => `skipped: ${s}`)];
       setRowStatus(row.message_id, {
         state: "done",
-        text: offersFound > 0 ? titles.join(" · ") : "no offers",
+        text: parts.length > 0 ? parts.join(" · ") : "no offers",
       });
       patchRow(row.message_id, {
         pulled: true,

@@ -5,7 +5,8 @@ import { fetchEmailBody } from "@/lib/email";
 import { extractOffersFromEmail, extractOfferFromText } from "@/lib/extract";
 import { RateLimitedError } from "@/lib/llm";
 import { fetchPostingText } from "@/lib/fetchPosting";
-import { createOffer } from "@/lib/offers";
+import { createOffer, findDuplicate } from "@/lib/offers";
+import { formatDuplicate } from "@/lib/dedup";
 import type { ExtractedOffer } from "@/lib/types";
 
 // Pull can take a while (IMAP + Gemini + posting fetches).
@@ -96,7 +97,16 @@ export async function POST(_req: NextRequest, { params }: Params) {
   }
 
   const titles: string[] = [];
+  const skipped: string[] = [];
   for (const offer of extracted) {
+    // Check before the posting fetch + refinement: a known link/ref skips
+    // the expensive enrichment entirely.
+    const early = await findDuplicate(offer);
+    if (early) {
+      skipped.push(formatDuplicate(early));
+      continue;
+    }
+
     let postingText: string | null = null;
     let enriched: ExtractedOffer = offer;
 
@@ -121,6 +131,13 @@ export async function POST(_req: NextRequest, { params }: Params) {
       }
     }
 
+    // Enrichment may have filled in a ref_id or canonical link the email lacked.
+    const dup = await findDuplicate(enriched);
+    if (dup) {
+      skipped.push(formatDuplicate(dup));
+      continue;
+    }
+
     await createOffer(enriched, {
       source: "email",
       email_ref: `${email.subject} — ${row.date.slice(0, 10)}`,
@@ -133,11 +150,12 @@ export async function POST(_req: NextRequest, { params }: Params) {
     titles.push(enriched.title ?? enriched.employer ?? "(untitled)");
   }
 
-  await markPulled(messageId, extracted.length);
+  await markPulled(messageId, titles.length);
   const updated = await getEmail(messageId);
   return NextResponse.json({
-    offersFound: extracted.length,
+    offersFound: titles.length,
     titles,
+    skipped,
     classification: updated?.classification ?? row.classification,
   });
 }
