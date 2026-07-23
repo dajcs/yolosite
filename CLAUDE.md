@@ -35,7 +35,7 @@ Spec: `docs/specs/2026-07-08-job-assistant-vision.md`; email flow:
   `emails.ts` (queries), `dedup.ts` (duplicate-offer matching: cleaned-link / employer+ref rules),
   `email.ts` (Gmail IMAP: header listing + single-body fetch),
   `llm.ts` (Gemini structured output, default `gemini-flash-lite-latest`), `extract.ts`
-  (offer extraction), `fetchPosting.ts` (direct fetch → Jina Reader fallback, LinkedIn guest
+  (offer extraction from text and PDF), `fetchPosting.ts` (direct fetch → Jina Reader fallback, LinkedIn guest
   endpoint, link cleanup), `csv.ts`, `exportColumns.ts`, `state.ts`, `guard.ts`
 
 Commands (from `web/`): `npm test` (vitest), `npm run db:init` (apply `lib/schema.sql` to Neon).
