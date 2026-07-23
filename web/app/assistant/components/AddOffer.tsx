@@ -3,6 +3,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+function readAsBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () =>
+      resolve((reader.result as string).split(",", 2)[1] ?? "");
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function AddOffer() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -14,15 +24,18 @@ export default function AddOffer() {
     message: string;
     link: string | null;
   } | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [dragging, setDragging] = useState(false);
 
   async function post(force: boolean) {
     setBusy(true);
     setMessage("");
     setDup(null);
+    const pdf = file ? await readAsBase64(file) : undefined;
     const res = await fetch("/api/assistant/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ link, text, force }),
+      body: JSON.stringify({ link, text, pdf, force }),
     });
     setBusy(false);
     if (res.status === 409) {
@@ -48,6 +61,7 @@ export default function AddOffer() {
     }
     setLink("");
     setText("");
+    setFile(null);
     setOpen(false);
     router.refresh();
   }
@@ -86,6 +100,39 @@ export default function AddOffer() {
         onChange={(e) => setText(e.target.value)}
         className="w-full rounded bg-surface2 p-2"
       />
+      <label
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragging(true);
+        }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragging(false);
+          const dropped = e.dataTransfer.files[0];
+          if (dropped?.type === "application/pdf") setFile(dropped);
+        }}
+        className={`block cursor-pointer rounded border border-dashed p-3 text-sm text-gray ${
+          dragging ? "border-blue" : "border-surface2"
+        }`}
+      >
+        {file ? `📄 ${file.name}` : "Or drop a PDF here (or click to choose)"}
+        <input
+          type="file"
+          accept="application/pdf"
+          className="hidden"
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+        />
+      </label>
+      {file && (
+        <button
+          type="button"
+          onClick={() => setFile(null)}
+          className="text-sm text-gray underline"
+        >
+          Remove PDF
+        </button>
+      )}
       {message && <p className="text-sm text-yellow">{message}</p>}
       {dup && (
         <div className="flex flex-wrap items-center gap-2 text-sm">
