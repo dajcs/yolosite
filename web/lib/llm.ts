@@ -25,6 +25,7 @@ export function geminiText(data: unknown): string {
 export async function chatJson(
   prompt: string,
   schema: object,
+  file?: { mimeType: string; base64: string },
 ): Promise<unknown | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
@@ -32,6 +33,9 @@ export async function chatJson(
   // alias stays valid as Google retires pinned versions (the pinned 2.5 models
   // now 404 for new API keys). Override with GEMINI_MODEL if desired.
   const model = process.env.GEMINI_MODEL ?? "gemini-flash-lite-latest";
+
+  const parts: object[] = [{ text: prompt }];
+  if (file) parts.push({ inlineData: { mimeType: file.mimeType, data: file.base64 } });
 
   let response: Response;
   try {
@@ -42,7 +46,7 @@ export async function chatJson(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
+        contents: [{ parts }],
         generationConfig: {
           responseMimeType: "application/json",
           responseSchema: schema,
