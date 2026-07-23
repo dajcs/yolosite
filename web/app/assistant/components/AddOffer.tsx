@@ -100,46 +100,59 @@ export default function AddOffer() {
         onChange={(e) => setLink(e.target.value)}
         className="w-full rounded bg-surface2 p-2"
       />
-      <textarea
-        placeholder="Or paste the position description here"
-        rows={5}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="w-full rounded bg-surface2 p-2"
-      />
-      <label
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragging(false);
-          const dropped = e.dataTransfer.files[0];
-          if (dropped?.type === "application/pdf") setFile(dropped);
-        }}
-        className={`block cursor-pointer rounded border border-dashed p-3 text-sm text-gray ${
-          dragging ? "border-blue" : "border-surface2"
-        }`}
-      >
-        {file ? `📄 ${file.name}` : "Or drop a PDF here (or click to choose)"}
-        <input
-          type="file"
-          accept="application/pdf"
-          className="hidden"
-          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+      <div className="flex gap-2">
+        <textarea
+          placeholder="Or paste the position description here"
+          rows={5}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="w-4/5 rounded bg-surface2 p-2"
         />
-      </label>
-      {file && (
-        <button
-          type="button"
-          onClick={() => setFile(null)}
-          className="text-sm text-gray underline"
-        >
-          Remove PDF
-        </button>
-      )}
+        <div className="flex w-1/5 flex-col gap-1">
+          <label
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragging(false);
+              const dropped = e.dataTransfer.files[0];
+              if (dropped?.type === "application/pdf") setFile(dropped);
+            }}
+            className={`flex flex-1 cursor-pointer flex-col items-center justify-center gap-2 rounded border border-dashed p-2 text-center text-xs text-gray ${
+              dragging ? "border-blue" : "border-surface2"
+            }`}
+          >
+            {file ? (
+              <span className="break-all">📄 {file.name}</span>
+            ) : (
+              <>
+                <span>Drop a PDF here</span>
+                <span className="rounded bg-purple px-2 py-1 text-white">
+                  Upload PDF
+                </span>
+              </>
+            )}
+            <input
+              type="file"
+              accept="application/pdf"
+              className="hidden"
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            />
+          </label>
+          {file && (
+            <button
+              type="button"
+              onClick={() => setFile(null)}
+              className="text-xs text-gray underline"
+            >
+              Remove PDF
+            </button>
+          )}
+        </div>
+      </div>
       {message && <p className="text-sm text-yellow">{message}</p>}
       {dup && (
         <div className="flex flex-wrap items-center gap-2 text-sm">
