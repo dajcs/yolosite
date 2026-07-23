@@ -60,10 +60,11 @@ export async function POST(req: NextRequest) {
   }
 
   if (pdf) {
-    const offer = await extractOfferFromPdf(pdf, link);
-    if (!offer) {
+    const extracted = await extractOfferFromPdf(pdf, link);
+    if (!extracted) {
       return NextResponse.json({ error: "extraction_failed" }, { status: 422 });
     }
+    const { offer, text } = extracted;
     if (!force) {
       const dup = await findDuplicate({
         link: link ?? offer.link,
@@ -74,7 +75,7 @@ export async function POST(req: NextRequest) {
     }
     const id = await createOffer(offer, {
       source: "manual",
-      posting_text: null,
+      posting_text: text,
       link: link ?? offer.link,
     });
     return NextResponse.json({ id }, { status: 201 });

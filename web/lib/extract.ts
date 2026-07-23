@@ -43,6 +43,16 @@ const OFFERS_SCHEMA = {
   required: ["offers"],
 };
 
+// Like OFFER_SCHEMA plus posting_text: the full posting transcribed from the
+// PDF, stored so downstream (the /apply skill) has the job description.
+const PDF_OFFER_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    ...OFFER_SCHEMA.properties,
+    posting_text: { type: "STRING", nullable: true },
+  },
+};
+
 export async function extractOffersFromEmail(
   subject: string,
   from: string,
@@ -83,14 +93,20 @@ ${text.slice(0, 15000)}`;
 export async function extractOfferFromPdf(
   base64: string,
   link?: string,
-): Promise<ExtractedOffer | null> {
-  const prompt = `Attached is a PDF of a job posting. Extract its key characteristics: employer (company name), title (position title), location (city/country), ref_id (job reference id), deadline (application deadline), requirements (2-4 sentence summary of the key requirements), link (direct URL to the job posting). Use null for anything not present.${
+): Promise<{ offer: ExtractedOffer; text: string | null } | null> {
+  const prompt = `Attached is a PDF of a job posting. Extract its key characteristics: employer (company name), title (position title), location (city/country), ref_id (job reference id), deadline (application deadline), requirements (2-4 sentence summary of the key requirements), link (direct URL to the job posting), and posting_text (the full text of the posting, transcribed verbatim). Use null for anything not present.${
     link ? `\n\nPosting URL: ${link}` : ""
   }`;
 
-  const offer = normalizeOffer(
-    await chatJson(prompt, OFFER_SCHEMA, { mimeType: "application/pdf", base64 }),
-  );
-  if (offer && link && !offer.link) offer.link = link;
-  return offer;
+  const raw = await chatJson(prompt, PDF_OFFER_SCHEMA, {
+    mimeType: "application/pdf",
+    base64,
+  });
+  const offer = normalizeOffer(raw);
+  if (!offer) return null;
+  if (link && !offer.link) offer.link = link;
+  const value = (raw as { posting_text?: unknown }).posting_text;
+  const text =
+    typeof value === "string" && value.trim() !== "" ? value.trim() : null;
+  return { offer, text };
 }

@@ -33,14 +33,17 @@ describe("POST /api/assistant/offers — pdf branch", () => {
     extractPdfMock.mockReset();
   });
 
-  it("extracts from the pdf and creates an offer with null posting_text", async () => {
-    extractPdfMock.mockResolvedValue({ title: "Dev", employer: "ESA", link: null });
+  it("extracts from the pdf and stores the transcribed posting text", async () => {
+    extractPdfMock.mockResolvedValue({
+      offer: { title: "Dev", employer: "ESA", link: null },
+      text: "Full posting body.",
+    });
     const res = await POST(request({ pdf: "QUJD" }));
     expect(res.status).toBe(201);
     expect(extractPdfMock).toHaveBeenCalledWith("QUJD", undefined);
     expect(createOfferMock).toHaveBeenCalledWith(
       { title: "Dev", employer: "ESA", link: null },
-      { source: "manual", posting_text: null, link: null },
+      { source: "manual", posting_text: "Full posting body.", link: null },
     );
   });
 
@@ -52,7 +55,10 @@ describe("POST /api/assistant/offers — pdf branch", () => {
   });
 
   it("returns 409 on a duplicate", async () => {
-    extractPdfMock.mockResolvedValue({ title: "Dev", employer: "ESA", link: null });
+    extractPdfMock.mockResolvedValue({
+      offer: { title: "Dev", employer: "ESA", link: null },
+      text: "Full posting body.",
+    });
     findDuplicateMock.mockResolvedValue({ link: "https://x", offerId: 1 });
     const res = await POST(request({ pdf: "QUJD" }));
     expect(res.status).toBe(409);
