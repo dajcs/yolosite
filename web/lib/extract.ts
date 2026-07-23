@@ -79,3 +79,18 @@ ${text.slice(0, 15000)}`;
   if (offer && link && !offer.link) offer.link = link;
   return offer;
 }
+
+export async function extractOfferFromPdf(
+  base64: string,
+  link?: string,
+): Promise<ExtractedOffer | null> {
+  const prompt = `Attached is a PDF of a job posting. Extract its key characteristics: employer (company name), title (position title), location (city/country), ref_id (job reference id), deadline (application deadline), requirements (2-4 sentence summary of the key requirements), link (direct URL to the job posting). Use null for anything not present.${
+    link ? `\n\nPosting URL: ${link}` : ""
+  }`;
+
+  const offer = normalizeOffer(
+    await chatJson(prompt, OFFER_SCHEMA, { mimeType: "application/pdf", base64 }),
+  );
+  if (offer && link && !offer.link) offer.link = link;
+  return offer;
+}

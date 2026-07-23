@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 vi.mock("../llm", () => ({ chatJson: vi.fn() }));
 
 import { chatJson } from "../llm";
-import { normalizeOffer, extractOffersFromEmail } from "../extract";
+import { normalizeOffer, extractOffersFromEmail, extractOfferFromPdf } from "../extract";
 
 const chatJsonMock = vi.mocked(chatJson);
 
@@ -72,5 +72,30 @@ describe("normalizeOffer", () => {
   it("returns null for non-objects", () => {
     expect(normalizeOffer("job")).toBeNull();
     expect(normalizeOffer(null)).toBeNull();
+  });
+});
+
+describe("extractOfferFromPdf", () => {
+  beforeEach(() => chatJsonMock.mockReset());
+
+  it("returns null when the model call fails", async () => {
+    chatJsonMock.mockResolvedValue(null);
+    expect(await extractOfferFromPdf("QUJD")).toBeNull();
+  });
+
+  it("passes the PDF as an inline file part and normalizes the offer", async () => {
+    chatJsonMock.mockResolvedValue({ title: "Dev", employer: " ESA " });
+    const offer = await extractOfferFromPdf("QUJD");
+    expect(offer).toMatchObject({ title: "Dev", employer: "ESA" });
+    expect(chatJsonMock.mock.calls[0][2]).toEqual({
+      mimeType: "application/pdf",
+      base64: "QUJD",
+    });
+  });
+
+  it("fills the link when the extracted offer has none", async () => {
+    chatJsonMock.mockResolvedValue({ title: "Dev" });
+    const offer = await extractOfferFromPdf("QUJD", "https://example.com/job");
+    expect(offer?.link).toBe("https://example.com/job");
   });
 });
