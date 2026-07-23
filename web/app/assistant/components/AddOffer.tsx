@@ -31,7 +31,14 @@ export default function AddOffer() {
     setBusy(true);
     setMessage("");
     setDup(null);
-    const pdf = file ? await readAsBase64(file) : undefined;
+    let pdf: string | undefined;
+    try {
+      pdf = file ? await readAsBase64(file) : undefined;
+    } catch {
+      setBusy(false);
+      setMessage("Couldn't read that PDF.");
+      return;
+    }
     const res = await fetch("/api/assistant/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

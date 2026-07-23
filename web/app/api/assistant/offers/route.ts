@@ -109,5 +109,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id }, { status: 201 });
   }
 
-  return NextResponse.json({ error: "Provide a link or text" }, { status: 400 });
+  return NextResponse.json({ error: "Provide a link, text, or PDF" }, { status: 400 });
 }
